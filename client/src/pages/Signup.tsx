@@ -1,31 +1,75 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Link, useNavigate } from "react-router-dom";
 import { isLoggedin } from "../lib/utils";
+import { useFormik } from "formik";
 
 const Signup: React.FC = () => {
-    const [inputs, setInputs] = useState({ fullName: "", email: "", password: "" });
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
-    const handleInputsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputs({ ...inputs, [e.target.name]: e.target.value });
-    };
+    const formik: any = useFormik({
+        initialValues: {
+            fullName: "",
+            email: "",
+            password: "",
+        },
+        validate: (data) => {
+            let errors: any = {};
+
+            if (!data.fullName) {
+                errors.fullName = "Full name is required.";
+            }
+
+            if (!data.email) {
+                errors.email = "Email is required.";
+            } else if (
+                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(data.email)
+            ) {
+                errors.email = "Invalid email address. E.g. example@email.com";
+            }
+
+            if (!data.password) {
+                errors.password = "Password is required.";
+            }
+
+            return errors;
+        },
+        onSubmit: (data) => {
+            //formik.resetForm();
+            console.log(data);
+        },
+    });
 
     useEffect(() => {
-        // if user is logged in, redirect to home page 
+        // if user is logged in, redirect to home page
         if (isLoggedin()) navigate("/", { replace: true });
-    }, [navigate])
+    }, [navigate]);
+
+    const isFormFieldValid = (name: string) =>
+        !!(formik.touched[name] && formik.errors[name]);
+    const getFormErrorMessage = (name: string) => {
+        return (
+            isFormFieldValid(name) && (
+                <small className="p-error text-xs w-full flex align-items-center justify-content-end mt-1">
+                    {formik.errors[name]}
+                </small>
+            )
+        );
+    };
 
     return (
         <div className="w-full h-screen flex flex-column align-items-center pt-8 mt-5">
             <h2 className="font-normal text-4xl mb-4">Signup</h2>
-            <form className="w-full max-w-24rem flex flex-column">
+            <form
+                onSubmit={formik.handleSubmit}
+                className="w-full max-w-24rem flex flex-column"
+            >
                 <span className="p-float-label h-3rem mb-4">
                     <InputText
-                        value={inputs.fullName}
+                        value={formik.values.fullName}
                         name="fullName"
-                        onChange={handleInputsChange}
+                        onChange={formik.handleChange}
                         id="fullName"
                         className="h-3rem w-full text-sm"
                         type="text"
@@ -33,25 +77,26 @@ const Signup: React.FC = () => {
                     <label className="text-xs" htmlFor="email">
                         Full Name
                     </label>
+                    {getFormErrorMessage("fullName")}
                 </span>
                 <span className="p-float-label h-3rem mb-4">
                     <InputText
-                        value={inputs.email}
+                        value={formik.values.email}
                         name="email"
-                        onChange={handleInputsChange}
+                        onChange={formik.handleChange}
                         id="email"
                         className="h-3rem w-full text-sm"
-                        type="email"
                     />
                     <label className="text-xs" htmlFor="email">
                         Email
                     </label>
+                    {getFormErrorMessage("email")}
                 </span>
                 <span className="p-float-label h-3rem mb-4">
                     <InputText
-                        value={inputs.password}
+                        value={formik.values.password}
                         name="password"
-                        onChange={handleInputsChange}
+                        onChange={formik.handleChange}
                         id="password"
                         className="h-3rem w-full text-sm"
                         type="password"
@@ -59,11 +104,24 @@ const Signup: React.FC = () => {
                     <label className="text-xs" htmlFor="passsword">
                         Password
                     </label>
+                    {getFormErrorMessage("password")}
                 </span>
-                <Button label="Signup" className="w-full mb-2 h-3rem" />
+                <Button
+                    type="submit"
+                    label="Signup"
+                    className="w-full mb-2 h-3rem"
+                    disabled={
+                        formik.values.email === "" ||
+                        formik.values.password === "" ||
+                        formik.values.fullName === ""
+                    }
+                />
             </form>
             <div className="w-full max-w-24rem text-sm mt-3">
-                Already have account? <Link to='/login' className="text-primary" >Login</Link>
+                Already have account? &nbsp;
+                <Link to="/login" className="text-primary">
+                    Login
+                </Link>
             </div>
         </div>
     );
