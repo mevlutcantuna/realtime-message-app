@@ -11,6 +11,7 @@ const PrivateRoute: React.FC<Props> = ({ children }) => {
     if (!token) {
         return <Navigate to="/login" replace />
     }
+
     return children;
 }
 

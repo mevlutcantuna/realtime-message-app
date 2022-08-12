@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { isLoggedin } from "../lib/utils";
 
 const Signup: React.FC = () => {
     const [inputs, setInputs] = useState({ fullName: "", email: "", password: "" });
+    const navigate = useNavigate()
 
     const handleInputsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputs({ ...inputs, [e.target.name]: e.target.value });
     };
+
+    useEffect(() => {
+        // if user is logged in, redirect to home page 
+        if (isLoggedin()) navigate("/", { replace: true });
+    }, [navigate])
 
     return (
         <div className="w-full h-screen flex flex-column align-items-center pt-8 mt-5">
