@@ -1,8 +1,12 @@
 import React from 'react'
+import Header from '../components/Header'
 
 const Home: React.FC = () => {
     return (
-        <div>Home Updated</div>
+        <div className='w-full min-h-screen'>
+            <Header />
+            Home Page
+        </div>
     )
 }
 
