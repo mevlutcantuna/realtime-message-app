@@ -1,13 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import GoogleIcon from "../assets/icons/GoogleIcon";
 import { Link, useNavigate } from "react-router-dom";
 import { isLoggedin } from "../lib/utils";
 import { useFormik } from "formik";
+import toast from "react-hot-toast";
+import { auth } from "../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState<boolean>(false)
+
+    const login = async (email: string, password: string) => {
+        setLoading(true)
+        try {
+            const res = await signInWithEmailAndPassword(auth, email, password)
+            localStorage.setItem('token', JSON.stringify(res.user.uid))
+            setLoading(false)
+            return navigate('/', { replace: true })
+        } catch (error: any) {
+            setLoading(false)
+            return toast.error(error.code)
+        }
+    }
 
     const formik: any = useFormik({
         initialValues: {
@@ -33,7 +50,7 @@ const Login: React.FC = () => {
         },
         onSubmit: (data) => {
             //formik.resetForm();
-            console.log(data);
+            login(data.email, data.password)
         },
     });
 
@@ -89,6 +106,7 @@ const Login: React.FC = () => {
                     {getFormErrorMessage("password")}
                 </span>
                 <Button
+                    loading={loading}
                     type="submit"
                     label="Login"
                     className="w-full mb-2 h-3rem"
