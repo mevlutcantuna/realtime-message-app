@@ -1,12 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Link, useNavigate } from "react-router-dom";
 import { isLoggedin } from "../lib/utils";
 import { useFormik } from "formik";
+import toast from "react-hot-toast";
+import { auth } from "../firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 const Signup: React.FC = () => {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState<boolean>(false)
+
+    const signup = async (fullName: string, email: string, password: string) => {
+        setLoading(true)
+        try {
+            await createUserWithEmailAndPassword(auth, email, password)
+            await updateProfile(auth.currentUser, {
+                displayName: fullName
+            })
+            setLoading(false)
+            toast.success("Signup success.")
+            navigate('/login', { replace: true })
+        } catch (error: any) {
+            setLoading(false)
+            return toast.error(error.code)
+        }
+    }
 
     const formik: any = useFormik({
         initialValues: {
@@ -37,7 +57,7 @@ const Signup: React.FC = () => {
         },
         onSubmit: (data) => {
             //formik.resetForm();
-            console.log(data);
+            signup(data.fullName, data.email, data.password)
         },
     });
 
@@ -107,6 +127,7 @@ const Signup: React.FC = () => {
                     {getFormErrorMessage("password")}
                 </span>
                 <Button
+                    loading={loading}
                     type="submit"
                     label="Signup"
                     className="w-full mb-2 h-3rem"
