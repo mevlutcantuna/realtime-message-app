@@ -10,3 +10,7 @@
   list-style-type: none;
   font-family: "Raleway", sans-serif;
 }
+
+circle {
+  stroke: #676bc4 !important;
+}
