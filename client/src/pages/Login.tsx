@@ -6,8 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { isLoggedin } from "../lib/utils";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
-import { auth } from "../firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth, googleProvider } from "../firebase";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
@@ -22,6 +22,16 @@ const Login: React.FC = () => {
             return navigate('/', { replace: true })
         } catch (error: any) {
             setLoading(false)
+            return toast.error(error.code)
+        }
+    }
+
+    const loginWithGoogle = async () => {
+        try {
+            const res = await signInWithPopup(auth, googleProvider)
+            localStorage.setItem('token', JSON.stringify(res.user.uid))
+            navigate('/')
+        } catch (error: any) {
             return toast.error(error.code)
         }
     }
@@ -113,7 +123,7 @@ const Login: React.FC = () => {
                     disabled={formik.values.email === "" || formik.values.password === ""}
                 />
                 <div className="flex justify-content-center mb-2 text-md">&</div>
-                <Button className="flex justify-content-center h-3rem p-button-outlined p-button-secondary">
+                <Button onClick={loginWithGoogle} className="flex justify-content-center h-3rem p-button-outlined p-button-secondary">
                     <GoogleIcon />
                     <span className="ml-4">Login with Google</span>
                 </Button>
