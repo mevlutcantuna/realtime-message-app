@@ -3,10 +3,11 @@ import Header from '../components/Header'
 import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import { UserType } from '../types';
 
 
 const Home: React.FC = () => {
-    const [user, setUser] = useState();
+    const [user, setUser] = useState<UserType | null>(null);
     const [loading, setLoading] = useState<boolean>(false)
 
     useEffect(() => {

@@ -9,15 +9,17 @@ import toast from "react-hot-toast";
 import { auth, googleProvider } from "../firebase";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 
+
 const Login: React.FC = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState<boolean>(false)
 
     const login = async (email: string, password: string) => {
         setLoading(true)
+
         try {
-            const res = await signInWithEmailAndPassword(auth, email, password)
-            localStorage.setItem('token', JSON.stringify(res.user.uid))
+            const res: any = await signInWithEmailAndPassword(auth, email, password)
+            localStorage.setItem('token', JSON.stringify(res.user.accessToken))
             setLoading(false)
             return navigate('/', { replace: true })
         } catch (error: any) {
@@ -28,8 +30,8 @@ const Login: React.FC = () => {
 
     const loginWithGoogle = async () => {
         try {
-            const res = await signInWithPopup(auth, googleProvider)
-            localStorage.setItem('token', JSON.stringify(res.user.uid))
+            const res: any = await signInWithPopup(auth, googleProvider)
+            localStorage.setItem('token', JSON.stringify(res.user.accessToken))
             navigate('/')
         } catch (error: any) {
             return toast.error(error.code)
@@ -122,12 +124,15 @@ const Login: React.FC = () => {
                     className="w-full mb-2 h-3rem"
                     disabled={formik.values.email === "" || formik.values.password === ""}
                 />
-                <div className="flex justify-content-center mb-2 text-md">&</div>
-                <Button onClick={loginWithGoogle} className="flex justify-content-center h-3rem p-button-outlined p-button-secondary">
+
+            </form>
+            <div className="flex justify-content-center mb-2 text-md">&</div>
+            <div className="w-full max-w-24rem">
+                <Button onClick={loginWithGoogle} className="w-full flex justify-content-center h-3rem p-button-outlined p-button-secondary">
                     <GoogleIcon />
                     <span className="ml-4">Login with Google</span>
                 </Button>
-            </form>
+            </div>
             <div className="w-full max-w-24rem text-sm mt-3">
                 Don't you have an account? &nbsp;
                 <Link to="/signup" className="text-primary">
