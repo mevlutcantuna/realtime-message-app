@@ -20,7 +20,6 @@ const Home: React.FC = () => {
 
     if (loading) return <div className='w-full mt-30 flex align-items-center justify-content-center spinner'>
         <ProgressSpinner style={{ width: '50px', height: '50px', margin: "15rem" }} strokeWidth="8" fill="#fff" animationDuration="1s" />
-
     </div>
 
     return (
