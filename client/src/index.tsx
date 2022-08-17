@@ -6,7 +6,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 import '/node_modules/primeflex/primeflex.css'
-
+import 'antd/dist/antd.css'; // or 'antd/dist/antd.css'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

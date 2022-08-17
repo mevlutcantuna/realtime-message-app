@@ -11,6 +11,7 @@
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@types/react-router-dom": "^5.3.3",
+    "antd": "^4.22.6",
     "firebase": "^9.9.2",
     "formik": "^2.2.9",
     "primeflex": "^3.2.1",
@@ -47,5 +48,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {}
 }

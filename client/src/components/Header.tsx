@@ -28,7 +28,7 @@ const Header: React.FC<Props> = ({ user }) => {
             >
                 <div className="flex align-items-center"    >
                     <img src={ChatLogo} alt="logo" />
-                    <h3 className="ml-1"> ChatApp</h3>
+                    <h3 className="ml-1 mb-0"> ChatApp</h3>
                 </div>
                 <div className="flex align-items-center">
                     {user?.photoURL ? (
