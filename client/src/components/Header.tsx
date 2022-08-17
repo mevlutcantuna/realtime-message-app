@@ -20,7 +20,7 @@ const Header: React.FC<Props> = ({ user }) => {
     };
 
     return (
-        <div className="w-full h-4rem bg-indigo-400 text-white flex justify-content-center align-items-center">
+        <div className="w-full h-4rem text-800 flex justify-content-center align-items-center">
             <div
                 className="flex justify-content-between align-items-center w-full"
                 style={{ maxWidth: "80rem" }}
@@ -30,14 +30,14 @@ const Header: React.FC<Props> = ({ user }) => {
                     {user?.photoURL ? (
                         <img width={40} className="border-circle mr-2" src={user?.photoURL} alt="logo" />
                     ) : (
-                        <span className="bg-white p-2 border-circle text-indigo-400 mr-2">
+                        <span className="surface-300 p-2 border-circle text-indigo-400 mr-2">
                             {generateLogo(user?.displayName)}
                         </span>
                     )}
                     <span className="mr-4">{user?.displayName}</span>
                     <button
                         onClick={logout}
-                        className="flex justify-content-center align-items-center bg-indigo-400 cursor-pointer p-1"
+                        className="flex justify-content-center align-items-center surface-50 cursor-pointer p-1"
                     >
                         <LogoutIcon />
                     </button>

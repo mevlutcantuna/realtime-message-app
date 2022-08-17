@@ -4,6 +4,8 @@ import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { UserType } from '../types';
+import SideBar from '../components/SideBar';
+import ChatRoom from '../components/ChatRoom';
 
 
 const Home: React.FC = () => {
@@ -23,9 +25,12 @@ const Home: React.FC = () => {
     </div>
 
     return (
-        <div className='w-full min-h-screen'>
+        <div className='w-full min-h-screen surface-50'>
             <Header user={user} />
-            Home Page
+            <div className='flex' style={{ height: "calc(100vh - 4rem)" }}>
+                <SideBar />
+                <ChatRoom />
+            </div>
         </div>
     )
 }
