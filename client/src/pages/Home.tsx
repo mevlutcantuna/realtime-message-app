@@ -25,9 +25,9 @@ const Home: React.FC = () => {
     </div>
 
     return (
-        <div className='w-full min-h-screen surface-50'>
+        <div className='w-full min-h-screen surface-200 px-2'>
             <Header user={user} />
-            <div className='flex' style={{ height: "calc(100vh - 4rem)" }}>
+            <div className='flex justify-content-center mx-auto mt-4' style={{ maxWidth: "80rem" }}>
                 <SideBar />
                 <ChatRoom />
             </div>

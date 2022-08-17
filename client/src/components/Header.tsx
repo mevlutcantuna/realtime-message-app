@@ -5,6 +5,7 @@ import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { generateLogo } from "../lib/utils";
 import { UserType } from "../types";
+import ChatLogo from "../assets/images/chat-logo.png"
 
 interface Props {
     user: UserType | null;
@@ -25,7 +26,10 @@ const Header: React.FC<Props> = ({ user }) => {
                 className="flex justify-content-between align-items-center w-full"
                 style={{ maxWidth: "80rem" }}
             >
-                <h3>MessageApp</h3>
+                <div className="flex align-items-center"    >
+                    <img src={ChatLogo} alt="logo" />
+                    <h3 className="ml-1"> ChatApp</h3>
+                </div>
                 <div className="flex align-items-center">
                     {user?.photoURL ? (
                         <img width={40} className="border-circle mr-2" src={user?.photoURL} alt="logo" />
@@ -34,10 +38,10 @@ const Header: React.FC<Props> = ({ user }) => {
                             {generateLogo(user?.displayName)}
                         </span>
                     )}
-                    <span className="mr-4">{user?.displayName}</span>
+                    <span className="mr-4 text-sm">{user?.displayName.toUpperCase()}</span>
                     <button
                         onClick={logout}
-                        className="flex justify-content-center align-items-center surface-50 cursor-pointer p-1"
+                        className="flex justify-content-center align-items-center surface-200 cursor-pointer p-1"
                     >
                         <LogoutIcon />
                     </button>
