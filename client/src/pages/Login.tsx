@@ -8,14 +8,13 @@ import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import { auth, googleProvider } from "../firebase";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { useDispatch, useSelector } from "react-redux";
-import { setUser, setUserLoading } from "../store/auth";
+import { setUser, setUserLoading, useAppDispatch, useAppSelector } from "../store/auth";
 
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch()
-    const loading: any = useSelector<any>(state => state.auth.loading)
+    const dispatch = useAppDispatch()
+    const loading: boolean = useAppSelector(state => state.auth.loading)
 
     const login = async (email: string, password: string) => {
         dispatch(setUserLoading(true))

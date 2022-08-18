@@ -5,14 +5,15 @@ import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { generateLogo } from "../lib/utils";
 import ChatLogo from "../assets/images/chat-logo.png"
-import { useSelector } from "react-redux";
+import { setUser, useAppDispatch, useAppSelector } from "../store/auth";
 
 const Header: React.FC = () => {
     const navigate = useNavigate();
-    const user: any = useSelector<any>(state => state.auth.user)
+    const user: any = useAppSelector(state => state.auth.user)
+    const dispatch = useAppDispatch()
     const logout = () => {
         signOut(auth);
-        localStorage.removeItem("token");
+        dispatch(setUser(false))
         navigate("/login", { replace: true });
     };
 
@@ -27,7 +28,6 @@ const Header: React.FC = () => {
                     <h3 className="ml-1 mb-0"> ChatApp</h3>
                 </div>
                 <div className="flex align-items-center">
-
                     {user?.photoURL ? (
                         <img width={40} className="border-circle mr-2" src={user?.photoURL} alt="logo" />
                     ) : (

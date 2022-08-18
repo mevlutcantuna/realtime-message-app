@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from ".";
 import { UserType } from "../types";
 
 interface InitialStateType {
@@ -32,3 +34,6 @@ const authSlice = createSlice({
 
 export const { setUser, setUserLoading } = authSlice.actions;
 export default authSlice.reducer;
+
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

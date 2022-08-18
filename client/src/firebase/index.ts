@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
 import { store } from "../store";
 import { setUser, setUserLoading } from "../store/auth";
+import { UserType } from "../types";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -20,7 +21,15 @@ onAuthStateChanged(auth, (user: any) => {
   store.dispatch(setUserLoading(true));
   if (user) {
     localStorage.setItem("token", JSON.stringify(user.refreshToken));
-    store.dispatch(setUser(user));
+    let data: UserType = {
+      uid: user.uid,
+      refreshToken: user.refreshToken,
+      email: user.email,
+      displayName: user.displayName,
+      accessToken: user.accessToken,
+      photoURL: user.photoURL,
+    };
+    store.dispatch(setUser(data));
     store.dispatch(setUserLoading(false));
   } else {
     localStorage.removeItem("token");

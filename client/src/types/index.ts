@@ -1,10 +1,10 @@
 export interface UserType {
   accessToken?: string;
-  refreshToken: string;
+  refreshToken?: string;
   displayName: string;
   photoURL: string | null;
   uid: string;
-  email: string;
+  email: String;
 }
 
 export interface RoomType {

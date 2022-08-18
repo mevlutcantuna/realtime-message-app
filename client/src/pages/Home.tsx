@@ -3,11 +3,12 @@ import Header from "../components/Header";
 import { ProgressSpinner } from "primereact/progressspinner";
 import SideBar from "../components/SideBar";
 import ChatRoom from "../components/ChatRoom";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../store/auth";
+import { UserType } from "../types";
 
 const Home: React.FC = () => {
-    const loading = useSelector<any>((state) => state.auth.loading);
-    const user = useSelector<any>((state) => state.auth.user);
+    const loading: boolean = useAppSelector((state) => state.auth.loading);
+    const user: UserType | boolean = useAppSelector((state) => state.auth.user);
 
     if (loading || !user)
         return (
@@ -24,10 +25,7 @@ const Home: React.FC = () => {
     return (
         <div className="w-full min-h-screen surface-200 px-2">
             <Header />
-            <div
-                className="flex mx-auto mt-4"
-                style={{ maxWidth: "80rem" }}
-            >
+            <div className="flex mx-auto mt-4">
                 <SideBar />
                 <ChatRoom />
             </div>
