@@ -17,8 +17,8 @@ const SideBar: React.FC = () => {
     };
 
     return (
-        <div className="w-full h-full max-w-20rem mr-6 pb-4">
-            <div className="mb-5 border-round-xl">
+        <div className="w-full h-full max-w-20rem mr-2 lg:mr-4 lg:w-full w-5rem">
+            <div className="mb-5 border-round-xl hidden lg:flex">
                 <input
                     className="w-full h-3rem pl-3 border-round-xl"
                     placeholder="SEARCH"
@@ -26,38 +26,42 @@ const SideBar: React.FC = () => {
                 />
             </div>
             <div
-                className="w-full h-full bg-white border-round-xl p-2"
+                className="w-full min-h-full h-85vh-to-73vh bg-white border-round-xl p-2"
                 style={{
                     boxShadow: "rgba(0, 0, 0, 0.04) 0px 3px 5px",
-                    minHeight: "calc(100vh - 12rem)",
                 }}
             >
-                <div className="flex justify-content-end my-2 ">
+                <div className="flex justify-content-center lg:justify-content-end my-2 ">
                     <button
                         onClick={showModal}
-                        className="px-3 py-2 border-round-xl cursor-pointer hover:bg-indigo-100"
+                        className="hidden lg:flex px-3 py-2 border-round-xl cursor-pointer hover:bg-indigo-100"
                     >
                         create a room
                     </button>
+                    <button onClick={showModal}
+                        className="transition-all transition-duration-500 text-aling-center lg:hidden w-3rem h-3rem px-3 py-2 border-round-xl hover-circle cursor-pointer hover:bg-indigo-100"
+                    >
+                        +
+                    </button>
                 </div>
-                <ul>
-                    <li className="p-2 flex align-items-center border-round-xl justify-content-start w-full cursor-pointer mb-2 hover:bg-indigo-50 hover:text-800">
-                        <span className="flex align-items-center justify-content-center bg-indigo-300 w-3rem h-3rem mr-3 text-white text-xl border-circle">
+                <ul className="overflow-scroll hide-scroll">
+                    <li className="py-2 lg:p-2 flex align-items-center border-round-xl justify-content-center lg:justify-content-start w-full cursor-pointer mb-2 hover:bg-indigo-50 hover:text-800">
+                        <span className="transition-all transition-duration-500 flex align-items-center justify-content-center bg-indigo-300 w-3rem h-3rem mr-0 lg:mr-3 text-white text-xl border-round-xl hover-circle">
                             CR
                         </span>
-                        <span>Chat Room 1</span>
+                        <span className="hidden lg:flex">Chat Room 1</span>
                     </li>
-                    <li className="p-2 flex align-items-center border-round-xl justify-content-start w-full cursor-pointer mb-2 hover:bg-indigo-50 hover:text-800">
-                        <span className="flex align-items-center justify-content-center bg-indigo-300 w-3rem h-3rem mr-3 text-white text-xl border-circle">
+                    <li className="py-2 lg:p-2 flex align-items-center border-round-xl justify-content-center lg:justify-content-start w-full cursor-pointer mb-2 hover:bg-indigo-50 hover:text-800">
+                        <span className="transition-all transition-duration-500 flex align-items-center justify-content-center bg-indigo-300 w-3rem h-3rem mr-0 lg:mr-3  text-white text-xl border-round-xl hover-circle">
                             CR
                         </span>
-                        <span>Chat Room 1</span>
+                        <span className="hidden lg:flex">Chat Room 1</span>
                     </li>
-                    <li className="p-2 flex align-items-center border-round-xl justify-content-start w-full cursor-pointer mb-2 hover:bg-indigo-50 hover:text-800">
-                        <span className="flex align-items-center justify-content-center bg-indigo-300 w-3rem h-3rem mr-3 text-white text-xl border-circle">
+                    <li className="py-2 lg:p-2 flex align-items-center border-round-xl justify-content-center lg:justify-content-start w-full cursor-pointer mb-2 hover:bg-indigo-50 hover:text-800">
+                        <span className="transition-all transition-duration-500 flex align-items-center justify-content-center bg-indigo-300 w-3rem h-3rem mr-0 lg:mr-3 text-white text-xl border-round-xl hover-circle">
                             CR
                         </span>
-                        <span>Chat Room 1</span>
+                        <span className="hidden lg:flex">Chat Room 1</span>
                     </li>
                 </ul>
             </div>
@@ -66,7 +70,7 @@ const SideBar: React.FC = () => {
                 onOk={handleOk}
                 onCancel={handleCancel}
             />
-        </div>
+        </div >
     );
 };
 

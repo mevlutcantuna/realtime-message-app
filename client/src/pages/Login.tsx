@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import GoogleIcon from "../assets/icons/GoogleIcon";
@@ -8,30 +8,32 @@ import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import { auth, googleProvider } from "../firebase";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser, setUserLoading } from "../store/auth";
 
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
-    const [loading, setLoading] = useState<boolean>(false)
+    const dispatch = useDispatch()
+    const loading: any = useSelector<any>(state => state.auth.loading)
 
     const login = async (email: string, password: string) => {
-        setLoading(true)
-
+        dispatch(setUserLoading(true))
         try {
             const res: any = await signInWithEmailAndPassword(auth, email, password)
-            localStorage.setItem('token', JSON.stringify(res.user.accessToken))
-            setLoading(false)
+            dispatch(setUser(res.user))
+            dispatch(setUserLoading(false))
             return navigate('/', { replace: true })
         } catch (error: any) {
-            setLoading(false)
+            dispatch(setUser(false))
+            dispatch(setUserLoading(false))
             return toast.error(error.code)
         }
     }
 
     const loginWithGoogle = async () => {
         try {
-            const res: any = await signInWithPopup(auth, googleProvider)
-            localStorage.setItem('token', JSON.stringify(res.user.accessToken))
+            await signInWithPopup(auth, googleProvider)
             navigate('/')
         } catch (error: any) {
             return toast.error(error.code)

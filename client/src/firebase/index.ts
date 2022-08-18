@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
+import { store } from "../store";
+import { setUser, setUserLoading } from "../store/auth";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -13,5 +15,17 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const googleProvider = new GoogleAuthProvider();
 const auth: any = getAuth(app);
+
+onAuthStateChanged(auth, (user: any) => {
+  store.dispatch(setUserLoading(true));
+  if (user) {
+    localStorage.setItem("token", JSON.stringify(user.refreshToken));
+    store.dispatch(setUser(user));
+    store.dispatch(setUserLoading(false));
+  } else {
+    localStorage.removeItem("token");
+    store.dispatch(setUserLoading(false));
+  }
+});
 
 export { app, googleProvider, auth };

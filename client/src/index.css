@@ -18,3 +18,28 @@ circle {
 .ant-modal-content {
   border-radius: 1rem !important;
 }
+
+/* hide scrollbar but allow scrolling */
+.hide-scroll {
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll;
+}
+
+.hide-scroll::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+}
+
+.h-85vh-to-73vh {
+  height: 85vh;
+}
+
+.hover-circle:hover {
+  border-radius: 100% !important;
+}
+
+@media only screen and (min-width: 992px) {
+  .h-85vh-to-73vh {
+    height: 73vh !important;
+  }
+}

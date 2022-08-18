@@ -12,28 +12,30 @@ const ChatRoom: React.FC = () => {
   }, [])
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full w-full">
       <div
-        className="flex align-items-center w-full h-3rem pl-3 bg-white border-round-xl mb-5 "
+        className="hidden align-items-center w-full h-3rem pl-3 bg-white border-round-xl mb-5 lg:flex"
         style={{ boxShadow: "rgba(0, 0, 0, 0.04) 0px 3px 5px" }}
       >
         Chat Room 1
       </div>
       <div
-        className="w-full h-3rem bg-white border-round-xl p-3 flex flex-column justify-content-between"
-        style={{ boxShadow: "rgba(0, 0, 0, 0.04) 0px 3px 5px", minHeight: "calc(100vh - 12rem)" }}
+        className="w-full h-85vh-to-73vh bg-white border-round-xl px-3 pb-3 p-1 flex flex-column justify-content-between"
+        style={{ boxShadow: "rgba(0, 0, 0, 0.04) 0px 3px 5px" }}
       >
-        <div className="h-full overflow-scroll">
+        <div className="h-full overflow-scroll hide-scroll">
           <SentMessage />
+          <ReceivedMessage />
+          <ReceivedMessage />
           <ReceivedMessage />
           <ReceivedMessage />
           <ReceivedMessage />
 
           <div ref={messagesRef} />
         </div>
-        <div className="flex">
+        <div className="flex pt-3 ">
           <input className="surface-200 w-full p-3 border-round-3xl" placeholder="Type a message" />
-          <button className="w-3rem h-3rem ml-3 border-circle flex align-items-center justify-content-center cursor-pointer hover:bg-indigo-100">
+          <button className="transition-colors transition-duration-200 transition-ease-out w-3rem h-3rem ml-3 border-circle flex align-items-center justify-content-center cursor-pointer hover:bg-indigo-100">
             <img src={SendLogo} alt="send" />
           </button>
         </div>

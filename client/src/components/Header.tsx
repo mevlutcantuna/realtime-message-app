@@ -4,16 +4,12 @@ import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { generateLogo } from "../lib/utils";
-import { UserType } from "../types";
 import ChatLogo from "../assets/images/chat-logo.png"
+import { useSelector } from "react-redux";
 
-interface Props {
-    user: UserType | null;
-}
-
-const Header: React.FC<Props> = ({ user }) => {
+const Header: React.FC = () => {
     const navigate = useNavigate();
-
+    const user: any = useSelector<any>(state => state.auth.user)
     const logout = () => {
         signOut(auth);
         localStorage.removeItem("token");
@@ -31,6 +27,7 @@ const Header: React.FC<Props> = ({ user }) => {
                     <h3 className="ml-1 mb-0"> ChatApp</h3>
                 </div>
                 <div className="flex align-items-center">
+
                     {user?.photoURL ? (
                         <img width={40} className="border-circle mr-2" src={user?.photoURL} alt="logo" />
                     ) : (
@@ -38,7 +35,8 @@ const Header: React.FC<Props> = ({ user }) => {
                             {generateLogo(user?.displayName)}
                         </span>
                     )}
-                    <span className="mr-4 text-sm">{user?.displayName.toUpperCase()}</span>
+
+                    <span className="mr-4 text-sm hidden sm:flex">{user?.displayName.toUpperCase()}</span>
                     <button
                         onClick={logout}
                         className="flex justify-content-center align-items-center surface-200 cursor-pointer p-1"
