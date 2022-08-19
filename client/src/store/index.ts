@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import auth from "./auth";
+import room from "./room";
 
 export const store = configureStore({
   reducer: {
     auth,
+    room,
   },
 });
 

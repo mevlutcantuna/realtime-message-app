@@ -20,7 +20,7 @@ export const getRoom = async (req, res, next) => {
 export const getAllRooms = async (req, res, next) => {
   try {
     const allRooms = await Room.find({});
-    return res.status(400).json(allRooms);
+    return res.status(200).json(allRooms);
   } catch (error) {
     return res.status(404).json({ message: error.message });
   }
