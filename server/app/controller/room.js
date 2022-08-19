@@ -50,9 +50,18 @@ export const createRoom = async (req, res, next) => {
   }
 };
 
-export const deleteRoom = (req, res, next) => {
+export const deleteRoom = async (req, res, next) => {
+  const id = req.params.id;
   try {
+    const room = await Room.findByIdAndDelete(id);
+    // room is not found
+    if (!room)
+      return res
+        .status(404)
+        .json({ message: "There is no room with this id." });
+
+    return res.status(202).json({ ...room._doc });
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    return res.status(404).json({ message: error.message });
   }
 };
