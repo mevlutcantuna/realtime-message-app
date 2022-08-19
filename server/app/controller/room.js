@@ -1,19 +1,28 @@
 import Room from "../model/room.js";
 
-export const getRoom = (req, res, next) => {
+export const getRoom = async (req, res, next) => {
   const id = req.params.id;
-  console.log(id);
   try {
-    return res.status(200).json({ id });
+    // id must be required
+    if (!id) {
+      return res.status(400).json({ message: "id is required." });
+    }
+
+    // get room
+    const room = await Room.findById(id);
+
+    return res.status(200).json({ ...room._doc });
   } catch (error) {
     return res.status(404).json({ message: error.message });
   }
 };
 
-export const getAllRooms = (req, res, next) => {
+export const getAllRooms = async (req, res, next) => {
   try {
+    const allRooms = await Room.find({});
+    return res.status(400).json(allRooms);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    return res.status(404).json({ message: error.message });
   }
 };
 
@@ -25,6 +34,7 @@ export const createRoom = async (req, res, next) => {
 
     // if there is room with same name
     const exists = await Room.findOne({ name });
+    console.log(exists);
     if (exists) {
       return res.status(400).json({
         message: "There is room with same name, please type another room name",
@@ -33,7 +43,8 @@ export const createRoom = async (req, res, next) => {
 
     // create and save new room
     const newRoom = new Room({ name, user_id });
-    return res.status(201).json({ newRoom });
+    await newRoom.save();
+    return res.status(201).json({ ...newRoom._doc });
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }
