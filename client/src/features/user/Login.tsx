@@ -1,24 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-import GoogleIcon from "../assets/icons/GoogleIcon";
+import GoogleIcon from "../../assets/icons/GoogleIcon";
 import { Link, useNavigate } from "react-router-dom";
-import { isLoggedin } from "../lib/utils";
+import { isLoggedin } from "../../lib/utils";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
-import { auth, googleProvider } from "../firebase";
+import { auth, googleProvider } from "../../app/firebase";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const login = async (email: string, password: string) => {
+  const loginWithEmailPassword = async (email: string, password: string) => {
+    setLoading(true);
     try {
       const res: any = await signInWithEmailAndPassword(auth, email, password);
       localStorage.setItem("token", JSON.stringify(res.user.refreshToken));
+      setLoading(false);
       return navigate("/", { replace: true });
     } catch (error: any) {
       localStorage.removeItem("token");
+      setLoading(false);
       return toast.error(error.code);
     }
   };
@@ -58,7 +62,7 @@ const Login: React.FC = () => {
     },
     onSubmit: async (data) => {
       //formik.resetForm();
-      await login(data.email, data.password);
+      await loginWithEmailPassword(data.email, data.password);
     },
   });
 
@@ -113,6 +117,7 @@ const Login: React.FC = () => {
           {getFormErrorMessage("password")}
         </span>
         <Button
+          loading={loading}
           type="submit"
           label="Login"
           className="w-full mb-2 h-3rem"

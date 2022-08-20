@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import CreateRoomModal from "./CreateRoomModal";
-import { generateLogo } from "../lib/utils";
+import CreateRoomModal from "../chat/CreateRoomModal";
+import { generateLogo } from "../../lib/utils";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { RoomType } from "../types";
+import { RoomType } from "../../types";
 
 const SideBar: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [searchInput, setSearchInput] = useState<string>("");
+  //const [searchInput, setSearchInput] = useState<string>("");
   const navigate = useNavigate();
   let { search } = useLocation();
   let room_id = search.split("=")[1];
@@ -54,7 +54,6 @@ const SideBar: React.FC = () => {
     <div className="w-full h-full max-w-20rem mr-2 lg:mr-4 lg:w-full w-5rem">
       <div className="mb-5 border-round-xl hidden lg:flex">
         <input
-          value={searchInput}
           className="w-full h-3rem pl-3 border-round-xl"
           placeholder="SEARCH"
           style={{ boxShadow: "rgba(0, 0, 0, 0.04) 0px 3px 5px" }}

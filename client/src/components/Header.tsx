@@ -1,28 +1,28 @@
 import React from "react";
 import LogoutIcon from "../assets/icons/LogoutIcon";
 import { signOut } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth } from "../app/firebase";
 import { useNavigate } from "react-router-dom";
 import { generateLogo } from "../lib/utils";
 import ChatLogo from "../assets/images/chat-logo.png";
 import toast from "react-hot-toast";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { setUser, UserStateType } from "../features/user/userSlice";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAppSelector<UserStateType>((state) => state.user);
+  const dispatch = useAppDispatch();
 
   const logout = async () => {
     try {
       await signOut(auth);
       localStorage.removeItem("token");
+      dispatch(setUser(null));
       navigate("/login", { replace: true });
     } catch (e: any) {
       return toast.error(e.code);
     }
-  };
-
-  const mockUser = {
-    displayName: "Mevlüt Can",
-    photoURL: null,
   };
 
   return (
@@ -36,21 +36,21 @@ const Header: React.FC = () => {
           <h3 className="ml-1 mb-0"> ChatApp</h3>
         </div>
         <div className="flex align-items-center">
-          {mockUser?.photoURL ? (
+          {user?.photoURL ? (
             <img
               width={40}
               className="border-circle mr-2"
-              src={mockUser?.photoURL}
+              src={user?.photoURL}
               alt="logo"
             />
           ) : (
             <span className="surface-300 p-2 border-circle text-indigo-400 mr-2">
-              {generateLogo(mockUser?.displayName)}
+              {generateLogo(user?.displayName)}
             </span>
           )}
 
           <span className="mr-4 text-sm hidden sm:flex">
-            {mockUser?.displayName.toUpperCase()}
+            {user?.displayName.toUpperCase()}
           </span>
           <button
             onClick={logout}

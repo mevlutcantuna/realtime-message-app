@@ -1,14 +1,14 @@
 import React, { useEffect, useRef } from "react";
-import SendLogo from "../assets/images/send-logo.png";
-import ReceivedMessage from "./ReceivedMessage";
-import SentMessage from "./SentMessage";
+import SendLogo from "../../assets/images/send-logo.png";
+import ReceivedMessage from "../room/ReceivedMessage";
+import SentMessage from "../room/SentMessage";
 import { useLocation } from "react-router-dom";
 
 const ChatRoom: React.FC = () => {
   const messagesRef = useRef(null);
   let { search } = useLocation();
   let room_id = search.split("=")[1];
-
+  console.log(room_id);
   useEffect(() => {
     // 👇️ scroll to bottom every time messages change
     (messagesRef as any)?.current?.scrollIntoView({ behavior: "auto" });

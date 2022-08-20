@@ -1,14 +1,16 @@
 import React from "react";
-import Header from "../components/Header";
+import Header from "./Header";
 import { ProgressSpinner } from "primereact/progressspinner";
-import SideBar from "../components/SideBar";
-import ChatRoom from "../components/ChatRoom";
+import SideBar from "../features/room/SideBar";
+import ChatRoom from "../features/chat/ChatRoom";
+import { useAppSelector } from "../app/hooks";
+import { UserStateType } from "../features/user/userSlice";
 
 const Home: React.FC = () => {
-  let x = false;
-  // if loading or non-user, show loading component
+  const { user } = useAppSelector<UserStateType>((state) => state.user);
 
-  if (x)
+  // if loading or non-user, show loading component
+  if (!user)
     return (
       <div className="w-full mt-30 flex align-items-center justify-content-center spinner">
         <ProgressSpinner

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Link, useNavigate } from "react-router-dom";
-import { isLoggedin } from "../lib/utils";
+import { isLoggedin } from "../../lib/utils";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
-import { auth } from "../firebase";
+import { auth } from "../../app/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 const Signup: React.FC = () => {

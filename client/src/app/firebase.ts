@@ -1,6 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
-import { UserType } from "../types";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -14,19 +13,5 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const googleProvider = new GoogleAuthProvider();
 const auth: any = getAuth(app);
-
-onAuthStateChanged(auth, (user: any) => {
-  if (user) {
-    let data: UserType = {
-      uid: user.uid,
-      refreshToken: user.refreshToken,
-      email: user.email,
-      displayName: user.displayName,
-      accessToken: user.accessToken,
-      photoURL: user.photoURL,
-    };
-  } else {
-  }
-});
 
 export { app, googleProvider, auth };
