@@ -34,7 +34,6 @@ export const createRoom = async (req, res, next) => {
 
     // if there is room with same name
     const exists = await Room.findOne({ name });
-    console.log(exists);
     if (exists) {
       return res.status(400).json({
         message: "There is room with same name, please type another room name",

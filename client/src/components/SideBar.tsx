@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CreateRoomModal from "./CreateRoomModal";
-import { getAllRooms } from "../store/room";
 import { generateLogo } from "../lib/utils";
-import { useAppDispatch, useAppSelector } from "../store/auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { RoomType } from "../types";
 
 const SideBar: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [searchInput, setSearchInput] = useState<string>("");
-  const allRooms = useAppSelector((state) => state.room.allRooms);
-  const [searchedRooms, setSearchedRooms] = useState<any>([]);
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   let { search } = useLocation();
   let room_id = search.split("=")[1];
@@ -33,41 +29,39 @@ const SideBar: React.FC = () => {
     return navigate(`?room=${id}`);
   };
 
-  useEffect(() => {
-    // get all rooms
-    dispatch(getAllRooms());
-  }, []);
-
-  useEffect(() => {
-    // set search all rooms ,when the page initialize
-    setSearchedRooms(allRooms);
-  }, [allRooms]);
-
-  useEffect(() => {
-    // @ts-ignore
-    if (searchInput) {
-      const changedRooms = allRooms.filter((room: any) => {
-        return room.name.toLowerCase().includes(searchInput.toLowerCase());
-      });
-      setSearchedRooms(changedRooms);
-    }
-  }, [searchInput]);
+  const mockData = [
+    {
+      user_id: "1",
+      name: "Room 1",
+      _id: "123123123",
+      _v: 0,
+    },
+    {
+      user_id: "2",
+      name: "Room 3",
+      _id: "1231dsadsa23123",
+      _v: 0,
+    },
+    {
+      user_id: "3",
+      name: "Room 3",
+      _id: "1231312312dsad23123",
+      _v: 0,
+    },
+  ];
 
   return (
     <div className="w-full h-full max-w-20rem mr-2 lg:mr-4 lg:w-full w-5rem">
       <div className="mb-5 border-round-xl hidden lg:flex">
         <input
           value={searchInput}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setSearchInput(e.target.value)
-          }
           className="w-full h-3rem pl-3 border-round-xl"
           placeholder="SEARCH"
           style={{ boxShadow: "rgba(0, 0, 0, 0.04) 0px 3px 5px" }}
         />
       </div>
       <div
-        className="w-full min-h-full h-85vh-to-73vh bg-white border-round-xl p-2"
+        className="w-full min-h-full overflow-scroll h-85vh-to-73vh bg-white border-round-xl p-2"
         style={{
           boxShadow: "rgba(0, 0, 0, 0.04) 0px 3px 5px",
         }}
@@ -88,7 +82,7 @@ const SideBar: React.FC = () => {
         </div>
         {/* @ts-ignore */}
         <ul ref={animationParent} className="overflow-scroll hide-scroll">
-          {searchedRooms?.map((room: any) => (
+          {mockData?.map((room: RoomType) => (
             <li
               onClick={() => selectRoom(room._id)}
               className={`transition-all transition-duration-200 py-2 lg:p-2 flex align-items-center border-round-xl justify-content-center lg:justify-content-start w-full cursor-pointer mb-2 ${

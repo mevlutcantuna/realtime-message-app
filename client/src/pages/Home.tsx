@@ -3,15 +3,12 @@ import Header from "../components/Header";
 import { ProgressSpinner } from "primereact/progressspinner";
 import SideBar from "../components/SideBar";
 import ChatRoom from "../components/ChatRoom";
-import { useAppSelector } from "../store/auth";
-import { UserType } from "../types";
 
 const Home: React.FC = () => {
-  const loading: boolean = useAppSelector((state) => state.auth.loading);
-  const user: UserType | boolean = useAppSelector((state) => state.auth.user);
-
+  let x = false;
   // if loading or non-user, show loading component
-  if (loading || !user)
+
+  if (x)
     return (
       <div className="w-full mt-30 flex align-items-center justify-content-center spinner">
         <ProgressSpinner

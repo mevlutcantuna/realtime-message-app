@@ -8,43 +8,27 @@ import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import { auth, googleProvider } from "../firebase";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import {
-  setUser,
-  setUserLoading,
-  useAppDispatch,
-  useAppSelector,
-} from "../store/auth";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const loading: boolean = useAppSelector((state) => state.auth.loading);
 
   const login = async (email: string, password: string) => {
-    dispatch(setUserLoading(true));
     try {
       const res: any = await signInWithEmailAndPassword(auth, email, password);
-      dispatch(setUser(res.user));
       localStorage.setItem("token", JSON.stringify(res.user.refreshToken));
-      dispatch(setUserLoading(false));
       return navigate("/", { replace: true });
     } catch (error: any) {
-      dispatch(setUser(false));
-      dispatch(setUserLoading(false));
       localStorage.removeItem("token");
       return toast.error(error.code);
     }
   };
 
   const loginWithGoogle = async () => {
-    dispatch(setUserLoading(true));
     try {
       const res = await signInWithPopup(auth, googleProvider);
-      dispatch(setUserLoading(false));
       localStorage.setItem("token", JSON.stringify(res.user.refreshToken));
       navigate("/");
     } catch (error: any) {
-      dispatch(setUserLoading(false));
       localStorage.removeItem("token");
       return toast.error(error.code);
     }
@@ -129,7 +113,6 @@ const Login: React.FC = () => {
           {getFormErrorMessage("password")}
         </span>
         <Button
-          loading={loading}
           type="submit"
           label="Login"
           className="w-full mb-2 h-3rem"

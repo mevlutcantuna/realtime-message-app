@@ -9,6 +9,7 @@ export interface UserType {
 
 export interface RoomType {
   name: string;
-  id: string;
+  _id: string;
   user_id: string;
+  _v: number;
 }
