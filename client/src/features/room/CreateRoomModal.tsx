@@ -1,0 +1,65 @@
+import React, { Ref, useRef } from "react";
+import { Modal } from "antd";
+import { Button } from "primereact/button";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import toast from "react-hot-toast";
+import { UserStateType } from "../user/userSlice";
+import { createRoom, RoomStateType } from "./RoomSlice";
+
+type Props = {
+  visible: boolean;
+  onOk: () => void;
+  onCancel: () => void;
+};
+
+const CreateRoomModal: React.FC<Props> = ({ visible, onOk, onCancel }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { user } = useAppSelector<UserStateType>((state) => state.user);
+  const { allRooms } = useAppSelector<RoomStateType>((state) => state.room);
+  const dispatch = useAppDispatch();
+
+  const submit = async () => {
+    if (inputRef.current && user?.uid) {
+      if (inputRef.current.value === "")
+        return toast.error("Room name is required.");
+      let name: string = inputRef.current.value;
+      let user_id: string = user?.uid;
+      const res = await dispatch(createRoom({ name, user_id }));
+      if (res.payload) {
+        onCancel();
+        toast.success("Room created successfully.");
+        return (inputRef.current.value = "");
+      } else {
+        return toast.error("Something went wrong...");
+      }
+    }
+  };
+
+  return (
+    <Modal
+      visible={visible}
+      onOk={onOk}
+      onCancel={onCancel}
+      footer={null}
+      width={400}
+    >
+      <div className="mt-4">
+        <input
+          ref={inputRef}
+          className="w-full border-round-md py-2 px-3 surface-200"
+          placeholder="Type new room name..."
+        />
+        <div className="mt-3 flex justify-content-end">
+          <Button
+            onClick={submit}
+            loading={allRooms.loading}
+            label="create"
+            className="py-1 px-3 cursor-pointer surface-300 text-900 text-sm border-none border-round-md hover:bg-indigo-100"
+          />
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+export default CreateRoomModal;

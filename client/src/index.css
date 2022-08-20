@@ -38,6 +38,12 @@ circle {
   border-radius: 100% !important;
 }
 
+.p-speeddial-item > a{
+  width:2rem;
+  height:2rem;
+}
+
+
 @media only screen and (min-width: 992px) {
   .h-85vh-to-73vh {
     height: 73vh !important;
