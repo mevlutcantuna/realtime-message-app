@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import roomRouter from "./router/room.js";
+import messageRouter from "./router/message.js";
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -16,6 +17,7 @@ app.get("/", (req, res) => {
 });
 
 app.use(roomRouter);
+app.use(messageRouter);
 
 mongoose
   .connect(process.env.DB_URL, {
