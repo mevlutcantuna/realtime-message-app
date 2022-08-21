@@ -1,4 +1,5 @@
 import Room from "../model/room.js";
+import Message from "../model/message.js";
 
 export const getRoom = async (req, res, next) => {
   const id = req.params.id;
@@ -58,6 +59,12 @@ export const deleteRoom = async (req, res, next) => {
       return res
         .status(404)
         .json({ message: "There is no room with this id." });
+
+    // delete messages depend on the room
+    const messages = await Message.find({ room_id: id });
+    for (let i = 0; i < messages.length; i++) {
+      await Message.findByIdAndDelete(messages[i]._id);
+    }
 
     return res.status(202).json({ ...room._doc });
   } catch (error) {

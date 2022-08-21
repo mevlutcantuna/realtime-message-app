@@ -25,9 +25,9 @@ const ChatRoom: React.FC = () => {
           return setIsRoomSelected(true);
         } else return setIsRoomSelected(false);
       }
+      setIsRoomSelected(false);
     };
-
-    const x = getMessages();
+    getMessages();
   }, [room_id, dispatch]);
 
   return (

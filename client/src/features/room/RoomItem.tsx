@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { generateLogo } from "../../lib/utils";
 import { RoomType } from "../../types";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -18,7 +18,6 @@ const RoomItem: React.FC<Props> = ({ room }) => {
   const dispatch = useAppDispatch();
   let { search } = useLocation();
   let room_id = search.split("=")[1];
-  const toastRef = useRef<any>(null);
 
   const selectRoom = (id: string) => {
     return navigate(`?room=${id}`);
