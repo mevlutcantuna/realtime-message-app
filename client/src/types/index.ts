@@ -21,9 +21,9 @@ export interface MessageType {
     name: String;
     id: string;
   };
-  _id: string;
+  _id?: string;
   content: string;
   created_date: Date;
   room_id: string;
-  __v: number;
+  __v?: number;
 }

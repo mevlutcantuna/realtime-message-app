@@ -26,6 +26,14 @@ export const fetchRoomMessages = createAsyncThunk(
   }
 );
 
+export const sendMessage = createAsyncThunk(
+  "sendMessage",
+  async (data: MessageType) => {
+    const res = await api.post("/send-message", data);
+    return res.data;
+  }
+);
+
 const chatSlice = createSlice({
   name: "chat",
   initialState,
@@ -43,6 +51,19 @@ const chatSlice = createSlice({
       state.error = "";
     });
     builder.addCase(fetchRoomMessages.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error;
+    });
+    builder.addCase(sendMessage.fulfilled, (state, action) => {
+      state.messages = [...state.messages, action.payload];
+      state.loading = false;
+      state.error = "";
+    });
+    builder.addCase(sendMessage.pending, (state, action) => {
+      state.loading = true;
+      state.error = "";
+    });
+    builder.addCase(sendMessage.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error;
     });

@@ -19,7 +19,6 @@ const ChatHeader = () => {
       }
     }
     setRoom(null);
-    return navigate("/");
   }, [rooms, room_id]);
 
   return (
