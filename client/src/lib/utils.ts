@@ -12,3 +12,13 @@ export const generateLogo = (fullName: string = "") => {
   }
   return logo;
 };
+
+export const getTime = (time: Date) => {
+  const date = new Date(time);
+  let hour =
+    date.getHours() >= 10 ? `${date.getHours()}` : `0${date.getHours()}`;
+  let min =
+    date.getMinutes() >= 10 ? `${date.getMinutes()}` : `0${date.getMinutes()}`;
+  console.log(hour, min);
+  return hour + ":" + min;
+};

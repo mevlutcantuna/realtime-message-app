@@ -1,16 +1,32 @@
 import React, { useEffect, useRef } from "react";
 import SendLogo from "../../assets/images/send-logo.png";
-import ReceivedMessage from "../room/ReceivedMessage";
-import SentMessage from "../room/SentMessage";
+import ReceivedMessage from "./ReceivedMessage";
+import SentMessage from "./SentMessage";
 import ChatHeader from "./ChatHeader";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useLocation } from "react-router-dom";
+import { ChatStateType, fetchRoomMessages } from "./ChatSlice";
+import { UserStateType } from "../user/userSlice";
+import { MessageType, UserType } from "../../types";
 
 const ChatRoom: React.FC = () => {
   const messagesRef = useRef(null);
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector<UserStateType>((state) => state.user);
+  const { messages } = useAppSelector<ChatStateType>((state) => state.chat);
+  let { search } = useLocation();
+  let room_id = search.split("=")[1];
+
+  console.log(user);
 
   useEffect(() => {
+    if (room_id) {
+      dispatch(fetchRoomMessages(room_id));
+    }
+
     // 👇️ scroll to bottom every time messages change
     (messagesRef as any)?.current?.scrollIntoView({ behavior: "auto" });
-  }, []);
+  }, [room_id]);
 
   return (
     <div className="w-full w-full">
@@ -20,13 +36,13 @@ const ChatRoom: React.FC = () => {
         style={{ boxShadow: "rgba(0, 0, 0, 0.04) 0px 3px 5px" }}
       >
         <div className="h-full overflow-scroll hide-scroll">
-          <SentMessage />
-          <ReceivedMessage />
-          <ReceivedMessage />
-          <ReceivedMessage />
-          <ReceivedMessage />
-          <ReceivedMessage />
-
+          {messages?.map((message: MessageType) =>
+            message.user.id === (user as UserType).uid ? (
+              <SentMessage key={message._id} message={message} />
+            ) : (
+              <ReceivedMessage key={message._id} message={message} />
+            )
+          )}
           <div ref={messagesRef} />
         </div>
         <div className="flex pt-3 ">

@@ -29,7 +29,7 @@ export const getRoomMessages = async (req, res, next) => {
 
     // get messages for a room
     const messages = await Message.find({ room_id: id });
-    return res.status(200).json({ ...messages });
+    return res.status(200).json(messages);
   } catch (err) {
     return res.status(400).json({ message: err.message });
   }
