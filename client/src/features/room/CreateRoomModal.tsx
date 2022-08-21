@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import toast from "react-hot-toast";
 import { UserStateType } from "../user/userSlice";
 import { createRoom, RoomStateType } from "./RoomSlice";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   visible: boolean;
@@ -15,8 +16,9 @@ type Props = {
 const CreateRoomModal: React.FC<Props> = ({ visible, onOk, onCancel }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { user } = useAppSelector<UserStateType>((state) => state.user);
-  const { allRooms } = useAppSelector<RoomStateType>((state) => state.room);
+  const { loading } = useAppSelector<RoomStateType>((state) => state.room);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const submit = async () => {
     if (inputRef.current && user?.uid) {
@@ -32,6 +34,7 @@ const CreateRoomModal: React.FC<Props> = ({ visible, onOk, onCancel }) => {
       if (res.payload) {
         onCancel();
         toast.success("Room created successfully.");
+        navigate(`/?room=${res.payload._id}`);
         return (inputRef.current.value = "");
       } else {
         return toast.error("Something went wrong...");
@@ -56,7 +59,7 @@ const CreateRoomModal: React.FC<Props> = ({ visible, onOk, onCancel }) => {
         <div className="mt-3 flex justify-content-end">
           <Button
             onClick={submit}
-            loading={allRooms.loading}
+            loading={loading}
             label="create"
             className="py-1 px-3 cursor-pointer surface-300 text-900 text-sm border-none border-round-md hover:bg-indigo-100"
           />

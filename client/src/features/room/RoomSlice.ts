@@ -7,29 +7,15 @@ import { RoomType } from "../../types";
 import { api } from "../../lib/api";
 
 export interface RoomStateType {
-  selectedRoom: {
-    data: RoomType | null;
-    loading: boolean;
-    error: string | SerializedError;
-  };
-  allRooms: {
-    data: RoomType[];
-    loading: boolean;
-    error: string | SerializedError;
-  };
+  rooms: RoomType[];
+  loading: boolean;
+  error: string | SerializedError;
 }
 
 const initialState: RoomStateType = {
-  selectedRoom: {
-    data: null,
-    loading: false,
-    error: "",
-  },
-  allRooms: {
-    data: [],
-    loading: false,
-    error: "",
-  },
+  rooms: [],
+  loading: false,
+  error: "",
 };
 
 export const fetchAllRooms = createAsyncThunk("fetchAllRooms", async () => {
@@ -70,46 +56,46 @@ const roomSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchAllRooms.fulfilled, (state, action) => {
-      state.allRooms.data = action.payload;
-      state.allRooms.loading = false;
-      state.allRooms.error = "";
+      state.rooms = action.payload;
+      state.loading = false;
+      state.error = "";
     });
     builder.addCase(fetchAllRooms.pending, (state, action) => {
-      state.allRooms.loading = true;
-      state.allRooms.error = "";
+      state.loading = true;
+      state.error = "";
     });
     builder.addCase(fetchAllRooms.rejected, (state, action) => {
-      state.allRooms.data = [];
-      state.allRooms.loading = false;
-      state.allRooms.error = action.error;
+      state.rooms = [];
+      state.loading = false;
+      state.error = action.error;
     });
     builder.addCase(createRoom.fulfilled, (state, action) => {
-      state.allRooms.data = [action.payload, ...state.allRooms.data];
-      state.allRooms.loading = false;
-      state.allRooms.error = "";
+      state.rooms = [action.payload, ...state.rooms];
+      state.loading = false;
+      state.error = "";
     });
     builder.addCase(createRoom.pending, (state, action) => {
-      state.allRooms.loading = true;
-      state.allRooms.error = "";
+      state.loading = true;
+      state.error = "";
     });
     builder.addCase(createRoom.rejected, (state, action) => {
-      state.allRooms.loading = false;
-      state.allRooms.error = action.error;
+      state.loading = false;
+      state.error = action.error;
     });
     builder.addCase(deleteRoom.fulfilled, (state, action) => {
-      state.allRooms.data = state.allRooms.data.filter((room: RoomType) => {
+      state.rooms = state.rooms.filter((room: RoomType) => {
         return room._id !== action.payload._id;
       });
-      state.allRooms.loading = false;
-      state.allRooms.error = "";
+      state.loading = false;
+      state.error = "";
     });
     builder.addCase(deleteRoom.pending, (state, action) => {
-      state.allRooms.loading = true;
-      state.allRooms.error = "";
+      state.loading = true;
+      state.error = "";
     });
     builder.addCase(deleteRoom.rejected, (state, action) => {
-      state.allRooms.loading = false;
-      state.allRooms.error = action.error;
+      state.loading = false;
+      state.error = action.error;
     });
   },
 });

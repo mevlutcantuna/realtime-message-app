@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import CreateRoomModal from "./CreateRoomModal";
-import { generateLogo } from "../../lib/utils";
-import { useLocation, useNavigate } from "react-router-dom";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { RoomType } from "../../types";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -13,7 +11,7 @@ const SideBar: React.FC = () => {
   const [searchInput, setSearchInput] = useState<string>("");
   const [searchedAllRooms, setSearchedAllRooms] = useState<RoomType[]>([]);
   const dispatch = useAppDispatch();
-  const allRooms = useAppSelector((state) => state.room.allRooms.data);
+  const rooms = useAppSelector((state) => state.room.rooms);
   const [animationParent] = useAutoAnimate();
 
   const showModal = () => {
@@ -35,13 +33,13 @@ const SideBar: React.FC = () => {
 
   useEffect(() => {
     // search all rooms and set it when page initialize
-    if (searchInput === "") return setSearchedAllRooms(allRooms);
+    if (searchInput === "") return setSearchedAllRooms(rooms);
 
-    let changedAllRooms = allRooms.filter((room: RoomType) =>
+    let changedAllRooms = rooms.filter((room: RoomType) =>
       room.name.toLowerCase().includes(searchInput.toLowerCase())
     );
     return setSearchedAllRooms(changedAllRooms);
-  }, [searchInput, allRooms]);
+  }, [searchInput, rooms]);
 
   return (
     <div className="w-full h-full max-w-20rem mr-2 lg:mr-4 lg:w-full w-5rem">

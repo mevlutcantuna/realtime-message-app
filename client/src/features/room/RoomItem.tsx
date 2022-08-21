@@ -27,7 +27,8 @@ const RoomItem: React.FC<Props> = ({ room }) => {
   const deleteRoomCommand = async (id: string) => {
     const res = await dispatch(deleteRoom(id));
     if (res.payload) {
-      return toast.success("Room deleted.");
+      toast.success("Room deleted.");
+      return navigate("/");
     } else {
       return toast.error("Something went wrong.");
     }
