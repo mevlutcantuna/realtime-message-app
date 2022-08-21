@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { generateLogo } from "../../lib/utils";
 import { RoomType } from "../../types";
 import { useLocation, useNavigate } from "react-router-dom";

@@ -4,13 +4,12 @@ export const isLoggedin = () => {
 };
 
 export const generateLogo = (fullName: string = "") => {
-  let logo = "";
-  const nameArr = fullName.split(" ");
+  const nameArr = fullName?.split(" ");
 
-  for (let i = 0; i < nameArr.length; i++) {
-    logo += nameArr[i].split("")[0];
-  }
-  return logo;
+  const first = nameArr[0].split("")[0];
+  const last = nameArr[1].split("")[0];
+
+  return first + last;
 };
 
 export const getTime = (time: Date) => {
@@ -19,6 +18,5 @@ export const getTime = (time: Date) => {
     date.getHours() >= 10 ? `${date.getHours()}` : `0${date.getHours()}`;
   let min =
     date.getMinutes() >= 10 ? `${date.getMinutes()}` : `0${date.getMinutes()}`;
-  console.log(hour, min);
   return hour + ":" + min;
 };

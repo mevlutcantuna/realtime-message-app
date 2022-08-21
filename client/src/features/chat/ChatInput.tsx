@@ -1,5 +1,5 @@
 import SendLogo from "../../assets/images/send-logo.png";
-import React, { useRef } from "react";
+import React, { FormEvent, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { UserStateType } from "../user/userSlice";
 import { useLocation } from "react-router-dom";
@@ -13,7 +13,8 @@ const ChatInput = () => {
   const { search } = useLocation();
   const room_id = search.split("=")[1];
 
-  const submit = async () => {
+  const submit = async (e: FormEvent) => {
+    e.preventDefault();
     if (inputRef.current) {
       if (inputRef.current.value === "")
         return toast.error("Message is required");
@@ -37,17 +38,19 @@ const ChatInput = () => {
 
   return (
     <div className="flex pt-3 ">
-      <input
-        ref={inputRef}
-        className="surface-200 w-full p-3 border-round-3xl"
-        placeholder="Type a message"
-      />
-      <button
-        onClick={submit}
-        className="transition-colors transition-duration-200 transition-ease-out w-3rem h-3rem ml-3 border-circle flex align-items-center justify-content-center cursor-pointer hover:bg-indigo-100"
-      >
-        <img src={SendLogo} alt="send" />
-      </button>
+      <form className="flex pt-3 w-full" onSubmit={submit}>
+        <input
+          ref={inputRef}
+          className="surface-200 w-full p-3 border-round-3xl"
+          placeholder="Type a message"
+        />
+        <button
+          type="submit"
+          className="transition-colors transition-duration-200 transition-ease-out w-3rem h-3rem ml-3 border-circle flex align-items-center justify-content-center cursor-pointer hover:bg-indigo-100"
+        >
+          <img src={SendLogo} alt="send" />
+        </button>
+      </form>
     </div>
   );
 };
