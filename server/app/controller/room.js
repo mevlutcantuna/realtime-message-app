@@ -19,7 +19,7 @@ export const getRoom = async (req, res, next) => {
 
 export const getAllRooms = async (req, res, next) => {
   try {
-    const allRooms = await Room.find({});
+    const allRooms = await Room.find({}).sort({ updated_date: "descending" });
     return res.status(200).json(allRooms);
   } catch (error) {
     return res.status(404).json({ message: error.message });
@@ -27,7 +27,7 @@ export const getAllRooms = async (req, res, next) => {
 };
 
 export const createRoom = async (req, res, next) => {
-  const { name, user_id } = req.body;
+  const { name, user_id, created_date, updated_date } = req.body;
   try {
     // name must not be empty
     name === "" && res.status(400).json({ message: "Please provide name" });
@@ -41,7 +41,7 @@ export const createRoom = async (req, res, next) => {
     }
 
     // create and save new room
-    const newRoom = new Room({ name, user_id });
+    const newRoom = new Room({ name, user_id, created_date, updated_date });
     await newRoom.save();
     return res.status(201).json({ ...newRoom._doc });
   } catch (error) {

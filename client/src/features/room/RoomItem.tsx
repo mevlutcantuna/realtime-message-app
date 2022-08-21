@@ -3,31 +3,42 @@ import { generateLogo } from "../../lib/utils";
 import { RoomType } from "../../types";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SpeedDial } from "primereact/speeddial";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { UserStateType } from "../user/userSlice";
+import { deleteRoom } from "./RoomSlice";
+import toast from "react-hot-toast";
 
 interface Props {
   room: RoomType;
 }
 
 const RoomItem: React.FC<Props> = ({ room }) => {
+  const { user } = useAppSelector<UserStateType>((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   let { search } = useLocation();
   let room_id = search.split("=")[1];
-  const toast = useRef<any>(null);
+  const toastRef = useRef<any>(null);
 
   const selectRoom = (id: string) => {
     return navigate(`?room=${id}`);
+  };
+
+  const deleteRoomCommand = async (id: string) => {
+    const res = await dispatch(deleteRoom(id));
+    if (res.payload) {
+      return toast.success("Room deleted.");
+    } else {
+      return toast.error("Something went wrong.");
+    }
   };
 
   const items = [
     {
       label: "delete",
       icon: "pi pi-trash",
-      command: () => {
-        toast.current.show({
-          severity: "info",
-          summary: "Add",
-          detail: "Data Added",
-        });
+      command: async () => {
+        await deleteRoomCommand(room_id);
       },
     },
   ];
@@ -53,7 +64,13 @@ const RoomItem: React.FC<Props> = ({ room }) => {
           </span>
           <span className="hidden lg:flex">{room.name}</span>
         </div>
-        <div className="flex">
+        <div
+          className={`${
+            room._id === room_id && user?.uid === room.user_id
+              ? "flex"
+              : "hidden"
+          }`}
+        >
           <SpeedDial
             showIcon="pi pi-cog"
             model={items}

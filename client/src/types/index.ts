@@ -12,4 +12,6 @@ export interface RoomType {
   _id: string;
   user_id: string;
   _v: number;
+  created_date: Date;
+  updated_date: Date;
 }

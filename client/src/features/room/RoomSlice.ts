@@ -40,15 +40,27 @@ export const fetchAllRooms = createAsyncThunk("fetchAllRooms", async () => {
 interface dataType {
   name: string;
   user_id: string;
+  updated_date: Date;
+  created_date: Date;
 }
 
 export const createRoom = createAsyncThunk(
   "createRoom",
-  async ({ name, user_id }: dataType) => {
-    const res = await api.post("/room", { name, user_id });
+  async ({ name, user_id, created_date, updated_date }: dataType) => {
+    const res = await api.post("/room", {
+      name,
+      user_id,
+      created_date,
+      updated_date,
+    });
     return res.data;
   }
 );
+
+export const deleteRoom = createAsyncThunk("deleteRoom", async (id: string) => {
+  const res = await api.delete(`/room/${id}`);
+  return res.data;
+});
 
 const roomSlice = createSlice({
   name: "room",
@@ -81,6 +93,21 @@ const roomSlice = createSlice({
       state.allRooms.error = "";
     });
     builder.addCase(createRoom.rejected, (state, action) => {
+      state.allRooms.loading = false;
+      state.allRooms.error = action.error;
+    });
+    builder.addCase(deleteRoom.fulfilled, (state, action) => {
+      state.allRooms.data = state.allRooms.data.filter((room: RoomType) => {
+        return room._id !== action.payload._id;
+      });
+      state.allRooms.loading = false;
+      state.allRooms.error = "";
+    });
+    builder.addCase(deleteRoom.pending, (state, action) => {
+      state.allRooms.loading = true;
+      state.allRooms.error = "";
+    });
+    builder.addCase(deleteRoom.rejected, (state, action) => {
       state.allRooms.loading = false;
       state.allRooms.error = action.error;
     });

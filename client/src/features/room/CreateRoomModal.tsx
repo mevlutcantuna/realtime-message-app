@@ -24,7 +24,11 @@ const CreateRoomModal: React.FC<Props> = ({ visible, onOk, onCancel }) => {
         return toast.error("Room name is required.");
       let name: string = inputRef.current.value;
       let user_id: string = user?.uid;
-      const res = await dispatch(createRoom({ name, user_id }));
+      let created_date = new Date();
+      let updated_date = new Date();
+      const res = await dispatch(
+        createRoom({ name, user_id, created_date, updated_date })
+      );
       if (res.payload) {
         onCancel();
         toast.success("Room created successfully.");

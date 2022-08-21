@@ -11,6 +11,16 @@ const RoomSchema = new mongoose.Schema({
     require: true,
     trim: true,
   },
+  created_date: {
+    type: Date,
+    require: true,
+    trim: true,
+  },
+  updated_date: {
+    type: Date,
+    require: true,
+    trim: true,
+  },
 });
 
 export default mongoose.model("Room", RoomSchema);
