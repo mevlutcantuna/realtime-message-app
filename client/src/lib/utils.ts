@@ -8,7 +8,6 @@ export const generateLogo = (fullName: string = "") => {
 
   const first = nameArr[0].split("")[0];
   const last = nameArr[1].split("")[0];
-
   return first + last;
 };
 
