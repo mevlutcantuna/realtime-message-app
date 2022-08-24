@@ -7,6 +7,7 @@ import NoMessage from "./NoMessage";
 import ChatInput from "./ChatInput";
 import { useLocation } from "react-router-dom";
 import { ProgressSpinner } from "primereact/progressspinner";
+import MessageLoader from "../../components/MessageLoader";
 
 const ChatRoom: React.FC = () => {
   const { messages, loading } = useAppSelector<ChatStateType>(
@@ -32,6 +33,8 @@ const ChatRoom: React.FC = () => {
     getMessages();
   }, [room_id, dispatch]);
 
+  console.log(isRoomSelected);
+
   return (
     <div className="w-full w-full">
       <ChatHeader />
@@ -43,13 +46,14 @@ const ChatRoom: React.FC = () => {
         } `}
         style={{ boxShadow: "rgba(0, 0, 0, 0.04) 0px 3px 5px" }}
       >
-        {
-          loading ? <div className="w-full h-full flex justify-content-center mt-4"><ProgressSpinner strokeWidth="4"/></div> : <>
-            {messages.length > 0 ? <Messages /> : <NoMessage />}
-            {isRoomSelected && <ChatInput />}
-          </>
-        }
-
+        {loading ? (
+          <div className="w-full h-full flex align-items-start mt-4">
+            <ProgressSpinner />
+          </div>
+        ) : (
+          <>{messages.length > 0 ? <Messages /> : <NoMessage />}</>
+        )}
+        <ChatInput isRoomSelected={isRoomSelected} />
       </div>
     </div>
   );

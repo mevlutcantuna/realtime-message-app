@@ -4,9 +4,12 @@ import cors from "cors";
 import dotenv from "dotenv";
 import roomRouter from "./router/room.js";
 import messageRouter from "./router/message.js";
+import { Server } from "socket.io";
+import http from "http";
 
 const app = express();
 const port = process.env.PORT || 8080;
+const server = http.createServer(app);
 dotenv.config();
 
 app.use(cors());
@@ -25,8 +28,19 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    app.listen(port, () => {
-      console.log("DB Connection Successfully");
+    server.listen(port, () => {
+      console.log("DB Connection Successfully " + port);
     });
   })
   .catch((err) => console.log(err));
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    credentials: true,
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("a user connected on " + socket.id);
+});

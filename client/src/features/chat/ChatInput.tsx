@@ -6,7 +6,11 @@ import { useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import { sendMessage } from "./ChatSlice";
 
-const ChatInput = () => {
+interface Props {
+  isRoomSelected:boolean
+}
+
+const ChatInput:React.FC<Props> = ({isRoomSelected}) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
   const { user } = useAppSelector<UserStateType>((state) => state.user);
@@ -40,12 +44,14 @@ const ChatInput = () => {
     <div className="flex pt-3 ">
       <form className="flex pt-3 w-full" onSubmit={submit}>
         <input
+            disabled={!isRoomSelected}
           ref={inputRef}
           className="surface-200 w-full p-3 border-round-3xl"
           placeholder="Type a message"
         />
         <button
-          type="submit"
+            disabled={!isRoomSelected}
+            type="submit"
           className="transition-colors transition-duration-200 transition-ease-out w-3rem h-3rem ml-3 border-circle flex align-items-center justify-content-center cursor-pointer hover:bg-indigo-100"
         >
           <img src={SendLogo} alt="send" />
