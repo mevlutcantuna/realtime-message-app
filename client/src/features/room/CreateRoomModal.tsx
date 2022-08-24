@@ -1,4 +1,4 @@
-import React, {  useRef } from "react";
+import React, { useRef } from "react";
 import { Modal } from "antd";
 import { Button } from "primereact/button";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -6,14 +6,22 @@ import toast from "react-hot-toast";
 import { UserStateType } from "../user/userSlice";
 import { createRoom, RoomStateType } from "./RoomSlice";
 import { useNavigate } from "react-router-dom";
+import { Socket } from "socket.io-client";
+import { ClientToServerEvents, ServerToClientEvents } from "../../types";
 
 type Props = {
   visible: boolean;
   onOk: () => void;
   onCancel: () => void;
+  socket: Socket<ServerToClientEvents, ClientToServerEvents> | null;
 };
 
-const CreateRoomModal: React.FC<Props> = ({ visible, onOk, onCancel }) => {
+const CreateRoomModal: React.FC<Props> = ({
+  visible,
+  onOk,
+  onCancel,
+  socket,
+}) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { user } = useAppSelector<UserStateType>((state) => state.user);
   const { loading } = useAppSelector<RoomStateType>((state) => state.room);
@@ -28,10 +36,19 @@ const CreateRoomModal: React.FC<Props> = ({ visible, onOk, onCancel }) => {
       let user_id: string = user?.uid;
       let created_date = new Date();
       let updated_date = new Date();
+
       const res = await dispatch(
         createRoom({ name, user_id, created_date, updated_date })
       );
       if (res.payload) {
+        // @ts-ignore
+        socket?.emit("create-room", {
+          room_id: res.payload._id,
+          name: res.payload.name,
+          user_id: res.payload.user_id,
+          created_date: res.payload.created_date,
+          updated_date: res.payload.updated_date,
+        });
         onCancel();
         toast.success("Room created successfully.");
         navigate(`/?room=${res.payload._id}`);

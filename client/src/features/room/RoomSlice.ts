@@ -1,10 +1,12 @@
 import {
   createAsyncThunk,
   createSlice,
+  PayloadAction,
   SerializedError,
 } from "@reduxjs/toolkit";
 import { RoomType } from "../../types";
 import { api } from "../../lib/api";
+import RoomItem from "./RoomItem";
 
 export interface RoomStateType {
   rooms: RoomType[];
@@ -48,11 +50,19 @@ export const deleteRoom = createAsyncThunk("deleteRoom", async (id: string) => {
   return res.data;
 });
 
+// @ts-ignore
 const roomSlice = createSlice({
   name: "room",
   initialState,
   reducers: {
     // non-async actions
+    setRooms: (state, action: PayloadAction<RoomType>) => {
+      const roomExists = state.rooms.findIndex(
+        (room: RoomType) => room._id === action.payload._id
+      );
+      if (roomExists === 0) return console.log("worked");
+      state.rooms = [action.payload, ...state.rooms];
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchAllRooms.fulfilled, (state, action) => {
@@ -100,4 +110,5 @@ const roomSlice = createSlice({
   },
 });
 
+export const { setRooms } = roomSlice.actions;
 export default roomSlice.reducer;

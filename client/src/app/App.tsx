@@ -11,9 +11,6 @@ import { auth } from "./firebase";
 import { setUser } from "../features/user/userSlice";
 import { useAppDispatch } from "./hooks";
 
-import { io } from "socket.io-client";
-let socket = io("http://localhost:8080");
-
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
 

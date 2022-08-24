@@ -7,9 +7,14 @@ import NoMessage from "./NoMessage";
 import ChatInput from "./ChatInput";
 import { useLocation } from "react-router-dom";
 import { ProgressSpinner } from "primereact/progressspinner";
-import MessageLoader from "../../components/MessageLoader";
+import { Socket } from "socket.io-client";
+import { ClientToServerEvents, ServerToClientEvents } from "../../types";
 
-const ChatRoom: React.FC = () => {
+interface Props {
+  socket: Socket<ServerToClientEvents, ClientToServerEvents> | null;
+}
+
+const ChatRoom: React.FC<Props> = ({ socket }) => {
   const { messages, loading } = useAppSelector<ChatStateType>(
     (state) => state.chat
   );
@@ -32,8 +37,6 @@ const ChatRoom: React.FC = () => {
     };
     getMessages();
   }, [room_id, dispatch]);
-
-  console.log(isRoomSelected);
 
   return (
     <div className="w-full w-full">

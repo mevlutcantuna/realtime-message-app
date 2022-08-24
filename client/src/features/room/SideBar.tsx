@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from "react";
 import CreateRoomModal from "./CreateRoomModal";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { RoomType } from "../../types";
+import {
+  ClientToServerEvents,
+  RoomType,
+  ServerToClientEvents,
+} from "../../types";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { fetchAllRooms } from "./RoomSlice";
+import { fetchAllRooms, setRooms } from "./RoomSlice";
 import RoomItem from "./RoomItem";
+import { Socket } from "socket.io-client";
 
-const SideBar: React.FC = () => {
+interface Props {
+  socket: Socket<ServerToClientEvents, ClientToServerEvents> | null;
+}
+
+const SideBar: React.FC<Props> = ({ socket }) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [searchInput, setSearchInput] = useState<string>("");
   const [searchedAllRooms, setSearchedAllRooms] = useState<RoomType[]>([]);
+  const [newRoom, setNewRoom] = useState<RoomType>();
   const dispatch = useAppDispatch();
   const rooms = useAppSelector((state) => state.room.rooms);
   const [animationParent] = useAutoAnimate();
@@ -25,6 +35,19 @@ const SideBar: React.FC = () => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+  useEffect(() => {
+    //@ts-ignore
+    socket.on("get-rooms", (data) => {
+      setNewRoom({ ...data });
+    });
+  }, []);
+
+  useEffect(() => {
+    if (newRoom) {
+      dispatch(setRooms(newRoom));
+    }
+  }, [newRoom]);
 
   useEffect(() => {
     // get all room
@@ -77,7 +100,7 @@ const SideBar: React.FC = () => {
         {/* @ts-ignore */}
         <ul ref={animationParent} className="overflow-scroll hide-scroll">
           {searchedAllRooms?.map((room: RoomType) => (
-            <RoomItem key={room._id} room={room} />
+            <RoomItem key={room?._id} room={room} />
           ))}
         </ul>
       </div>
@@ -85,6 +108,7 @@ const SideBar: React.FC = () => {
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
+        socket={socket}
       />
     </div>
   );

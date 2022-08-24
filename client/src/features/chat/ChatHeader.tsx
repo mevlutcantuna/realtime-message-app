@@ -13,7 +13,7 @@ const ChatHeader = () => {
   useEffect(() => {
     for (let i = 0; i < rooms.length; i++) {
       const item = rooms[i];
-      if (item._id === room_id) {
+      if (item?._id === room_id) {
         return setRoom(item);
       }
     }

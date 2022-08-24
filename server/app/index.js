@@ -42,5 +42,27 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log("a user connected on " + socket.id);
+  // when connect
+  console.log("User is connected with this ID : " + socket.id);
+
+  // create and get room
+  socket.on(
+    "create-room",
+    ({ room_id, name, user_id, created_date, updated_date }) => {
+      io.emit("get-rooms", {
+        _id: room_id,
+        name,
+        user_id,
+        created_date,
+        updated_date,
+      });
+    }
+  );
+
+  // delete room
+
+  // when disconnect
+  socket.on("disconnect", () => {
+    console.log("User is disconnected with this ID : " + socket.id);
+  });
 });
