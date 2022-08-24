@@ -100,5 +100,4 @@ const roomSlice = createSlice({
   },
 });
 
-export const {} = roomSlice.actions;
 export default roomSlice.reducer;

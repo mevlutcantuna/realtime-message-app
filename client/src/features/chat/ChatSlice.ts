@@ -59,10 +59,6 @@ const chatSlice = createSlice({
       state.loading = false;
       state.error = "";
     });
-    builder.addCase(sendMessage.pending, (state, action) => {
-      state.loading = true;
-      state.error = "";
-    });
     builder.addCase(sendMessage.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error;
@@ -70,5 +66,4 @@ const chatSlice = createSlice({
   },
 });
 
-export const {} = chatSlice.actions;
 export default chatSlice.reducer;

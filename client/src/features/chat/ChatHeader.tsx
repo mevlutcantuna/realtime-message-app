@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
 import { RoomStateType } from "../room/RoomSlice";
 import { RoomType } from "../../types";
@@ -9,7 +9,6 @@ const ChatHeader = () => {
   const { rooms } = useAppSelector<RoomStateType>((state) => state.room);
   let { search } = useLocation();
   let room_id = search.split("=")[1];
-  const navigate = useNavigate();
 
   useEffect(() => {
     for (let i = 0; i < rooms.length; i++) {

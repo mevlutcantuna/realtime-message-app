@@ -43,8 +43,13 @@ const ChatRoom: React.FC = () => {
         } `}
         style={{ boxShadow: "rgba(0, 0, 0, 0.04) 0px 3px 5px" }}
       >
-        {messages.length > 0 ? <Messages /> : <NoMessage />}
-        {isRoomSelected && <ChatInput />}
+        {
+          loading ? <div className="w-full h-full flex justify-content-center mt-4"><ProgressSpinner strokeWidth="4"/></div> : <>
+            {messages.length > 0 ? <Messages /> : <NoMessage />}
+            {isRoomSelected && <ChatInput />}
+          </>
+        }
+
       </div>
     </div>
   );
