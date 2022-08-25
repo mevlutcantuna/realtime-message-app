@@ -11,6 +11,8 @@ import {
   MessageType,
   ServerToClientEvents,
 } from "../../types";
+//@ts-ignore
+import { v4 as uuidv4 } from "uuid";
 
 interface Props {
   isRoomSelected: boolean;

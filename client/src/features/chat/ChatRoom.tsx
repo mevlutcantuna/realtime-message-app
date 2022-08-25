@@ -9,6 +9,7 @@ import { useLocation } from "react-router-dom";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Socket } from "socket.io-client";
 import { ClientToServerEvents, ServerToClientEvents } from "../../types";
+import { message } from "antd";
 
 interface Props {
   socket: Socket<ServerToClientEvents, ClientToServerEvents> | null;
@@ -55,7 +56,13 @@ const ChatRoom: React.FC<Props> = ({ socket }) => {
             <ProgressSpinner />
           </div>
         ) : (
-          <>{isRoomSelected ? <Messages /> : <NoMessage />}</>
+          <>
+            {isRoomSelected && messages?.length > 0 ? (
+              <Messages />
+            ) : (
+              <NoMessage />
+            )}
+          </>
         )}
         <ChatInput socket={socket} isRoomSelected={isRoomSelected} />
       </div>

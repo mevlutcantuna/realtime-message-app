@@ -10,13 +10,16 @@ import { ClientToServerEvents, ServerToClientEvents } from "../types";
 
 const Home: React.FC = () => {
   const { user } = useAppSelector<UserStateType>((state) => state.user);
-  const ENDPOINT = "localhost:8080";
+  const ENDPOINT = process.env.development
+    ? "localhost:8080"
+    : process.env.SERVER_ENDPOINT;
   const [socket, setSocket] = useState<Socket<
     ServerToClientEvents,
     ClientToServerEvents
   > | null>(null);
+
   useEffect(() => {
-    setSocket(io(ENDPOINT));
+    setSocket(io(ENDPOINT as string));
   }, []);
 
   // if loading or non-user, show loading component
