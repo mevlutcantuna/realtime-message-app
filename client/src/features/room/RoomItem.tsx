@@ -1,23 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { generateLogo } from "../../lib/utils";
-import { RoomType } from "../../types";
+import {
+  ClientToServerEvents,
+  RoomType,
+  ServerToClientEvents,
+} from "../../types";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SpeedDial } from "primereact/speeddial";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { UserStateType } from "../user/userSlice";
-import { deleteRoom } from "./RoomSlice";
+import { deleteRoom, RoomStateType, setRooms } from "./RoomSlice";
 import toast from "react-hot-toast";
+import { Socket } from "socket.io-client";
 
 interface Props {
   room: RoomType;
+  socket: Socket<ServerToClientEvents, ClientToServerEvents> | null;
 }
 
-const RoomItem: React.FC<Props> = ({ room }) => {
+const RoomItem: React.FC<Props> = ({ room, socket }) => {
   const { user } = useAppSelector<UserStateType>((state) => state.user);
+  const { rooms } = useAppSelector<RoomStateType>((state) => state.room);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   let { search } = useLocation();
   let room_id = search.split("=")[1];
+  const [deletedRoom, setDeletedRoom] = useState<RoomType | null>(null);
 
   const selectRoom = (id: string) => {
     return navigate(`?room=${id}`);
@@ -26,12 +34,37 @@ const RoomItem: React.FC<Props> = ({ room }) => {
   const deleteRoomCommand = async (id: string) => {
     const res = await dispatch(deleteRoom(id));
     if (res.payload) {
+      //@ts-ignore
+      socket?.emit("delete-room", {
+        room_id: res.payload._id,
+        name: res.payload.name,
+        user_id: res.payload.user_id,
+        created_date: res.payload.created_date,
+        updated_date: res.payload.updated_date,
+      });
+
       toast.success("Room deleted.");
       return navigate("/");
     } else {
       return toast.error("Something went wrong.");
     }
   };
+
+  useEffect(() => {
+    if (deletedRoom) {
+      const deletedNewRooms = rooms.filter(
+        (item: RoomType) => item._id !== deletedRoom._id
+      );
+      dispatch(setRooms(deletedNewRooms));
+    }
+  }, [deletedRoom]);
+
+  useEffect(() => {
+    //@ts-ignore
+    socket?.on("get-delete-room", (data) => {
+      setDeletedRoom({ ...data });
+    });
+  }, []);
 
   const items = [
     {

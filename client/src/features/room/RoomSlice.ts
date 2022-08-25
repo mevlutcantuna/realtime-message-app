@@ -56,12 +56,8 @@ const roomSlice = createSlice({
   initialState,
   reducers: {
     // non-async actions
-    setRooms: (state, action: PayloadAction<RoomType>) => {
-      const roomExists = state.rooms.findIndex(
-        (room: RoomType) => room._id === action.payload._id
-      );
-      if (roomExists === 0) return console.log("worked");
-      state.rooms = [action.payload, ...state.rooms];
+    setRooms: (state, action: PayloadAction<RoomType[]>) => {
+      state.rooms = action.payload;
     },
   },
   extraReducers: (builder) => {

@@ -35,17 +35,25 @@ const SideBar: React.FC<Props> = ({ socket }) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-
   useEffect(() => {
     //@ts-ignore
-    socket.on("get-rooms", (data) => {
+    socket.on("get-created-room", (data) => {
       setNewRoom({ ...data });
     });
   }, []);
 
   useEffect(() => {
     if (newRoom) {
-      dispatch(setRooms(newRoom));
+      const roomExists = rooms?.findIndex(
+        (item: RoomType) => item._id === newRoom._id
+      );
+
+      if (roomExists === -1) {
+        const newRooms = [newRoom, ...rooms];
+        dispatch(setRooms(newRooms));
+      } else {
+        dispatch(setRooms([...rooms]));
+      }
     }
   }, [newRoom]);
 
@@ -100,7 +108,7 @@ const SideBar: React.FC<Props> = ({ socket }) => {
         {/* @ts-ignore */}
         <ul ref={animationParent} className="overflow-scroll hide-scroll">
           {searchedAllRooms?.map((room: RoomType) => (
-            <RoomItem key={room?._id} room={room} />
+            <RoomItem socket={socket} key={room?._id} room={room} />
           ))}
         </ul>
       </div>

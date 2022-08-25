@@ -49,7 +49,7 @@ io.on("connection", (socket) => {
   socket.on(
     "create-room",
     ({ room_id, name, user_id, created_date, updated_date }) => {
-      io.emit("get-rooms", {
+      io.emit("get-created-room", {
         _id: room_id,
         name,
         user_id,
@@ -60,6 +60,18 @@ io.on("connection", (socket) => {
   );
 
   // delete room
+  socket.on(
+    "delete-room",
+    ({ room_id, name, user_id, created_date, updated_date }) => {
+      io.emit("get-delete-room", {
+        _id: room_id,
+        name,
+        user_id,
+        created_date,
+        updated_date,
+      });
+    }
+  );
 
   // when disconnect
   socket.on("disconnect", () => {
