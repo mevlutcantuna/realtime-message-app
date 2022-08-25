@@ -35,11 +35,13 @@ mongoose
   .catch((err) => console.log(err));
 
 const uri = "https://message-app-realtime-mct.netlify.app/";
-const devUri = "http://localhost:3000";
+//const devUri = "http://localhost:3000";
 
 const io = new Server(server, {
   cors: {
-    origin: devUri,
+    origin: uri,
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
     credentials: true,
   },
 });

@@ -15,11 +15,17 @@ const Home: React.FC = () => {
     ClientToServerEvents
   > | null>(null);
 
-  const prodUri = "https://message-app-realtime-mct.netlify.app/";
-  const devUri = "http://localhost:8080";
+  const uri =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:8080"
+      : "https://realtime-message-app.herokuapp.com/";
 
   useEffect(() => {
-    setSocket(io(devUri));
+    setSocket(io(uri, { transports: ["websocket"] }));
+
+    return () => {
+      socket?.close();
+    };
   }, []);
 
   // if loading or non-user, show loading component

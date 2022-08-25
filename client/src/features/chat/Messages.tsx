@@ -13,7 +13,7 @@ const Messages = () => {
 
   useEffect(() => {
     // 👇️ scroll to bottom every time messages change
-    (messagesRef as any)?.current?.scrollIntoView({ behavior: "smooth" });
+    (messagesRef as any)?.current?.scrollIntoView({ behavior: "auto" });
   }, [messages]);
 
   return (
