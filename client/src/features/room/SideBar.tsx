@@ -40,7 +40,7 @@ const SideBar: React.FC<Props> = ({ socket }) => {
     socket?.on("get-created-room", (data) => {
       setNewRoom({ ...data });
     });
-  }, []);
+  }, [socket]);
 
   useEffect(() => {
     if (newRoom) {
@@ -55,7 +55,7 @@ const SideBar: React.FC<Props> = ({ socket }) => {
         dispatch(setRooms([...rooms]));
       }
     }
-  }, [newRoom]);
+  }, [newRoom, dispatch]);
 
   useEffect(() => {
     // get all room

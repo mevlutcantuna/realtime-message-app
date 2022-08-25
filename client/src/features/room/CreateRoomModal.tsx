@@ -4,14 +4,10 @@ import { Button } from "primereact/button";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import toast from "react-hot-toast";
 import { UserStateType } from "../user/userSlice";
-import { createRoom, RoomStateType, setRooms } from "./RoomSlice";
+import { createRoom, RoomStateType } from "./RoomSlice";
 import { useNavigate } from "react-router-dom";
 import { Socket } from "socket.io-client";
-import {
-  ClientToServerEvents,
-  RoomType,
-  ServerToClientEvents,
-} from "../../types";
+import { ClientToServerEvents, ServerToClientEvents } from "../../types";
 
 type Props = {
   visible: boolean;
@@ -28,9 +24,7 @@ const CreateRoomModal: React.FC<Props> = ({
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { user } = useAppSelector<UserStateType>((state) => state.user);
-  const { loading, rooms } = useAppSelector<RoomStateType>(
-    (state) => state.room
-  );
+  const { loading } = useAppSelector<RoomStateType>((state) => state.room);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 

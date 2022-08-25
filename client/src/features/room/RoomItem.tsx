@@ -57,14 +57,14 @@ const RoomItem: React.FC<Props> = ({ room, socket }) => {
       );
       dispatch(setRooms(deletedNewRooms));
     }
-  }, [deletedRoom]);
+  }, [deletedRoom, dispatch, rooms]);
 
   useEffect(() => {
     //@ts-ignore
     socket?.on("get-delete-room", (data) => {
       setDeletedRoom({ ...data });
     });
-  }, []);
+  }, [socket]);
 
   const items = [
     {

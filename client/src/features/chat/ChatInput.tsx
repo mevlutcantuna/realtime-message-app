@@ -11,8 +11,6 @@ import {
   MessageType,
   ServerToClientEvents,
 } from "../../types";
-//@ts-ignore
-import { v4 as uuidv4 } from "uuid";
 
 interface Props {
   isRoomSelected: boolean;
@@ -68,14 +66,14 @@ const ChatInput: React.FC<Props> = ({ isRoomSelected, socket }) => {
         }
       }
     }
-  }, [arrivalMessage]);
+  }, [arrivalMessage, dispatch, room_id, messages]);
 
   useEffect(() => {
     //@ts-ignore
     socket?.on("get-sent-message", (data) => {
       setArrivalMessage({ ...data });
     });
-  }, []);
+  }, [socket]);
 
   return (
     <div className="flex pt-3 ">

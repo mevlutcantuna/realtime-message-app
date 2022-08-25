@@ -6,7 +6,6 @@ import {
 } from "@reduxjs/toolkit";
 import { RoomType } from "../../types";
 import { api } from "../../lib/api";
-import RoomItem from "./RoomItem";
 
 export interface RoomStateType {
   rooms: RoomType[];
