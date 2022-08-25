@@ -13,11 +13,21 @@ const SentMessage: React.FC<Props> = ({ message }) => {
         <span className="text-xs text-700">{message?.user.name}</span>
         <span className="text-md text-900">{message?.content}</span>
       </div>
-      <div className="flex flex-column align-items-center">
-        <span className="flex justify-content-center align-items-center p-3 bg-indigo-100 border-circle text-900 ml-2">
-          {generateLogo(message?.user.name as string)}
-        </span>
-        <span className="mt-1">{getTime(message.created_date as Date)}</span>
+      <div className="flex flex-column align-items-center ml-2">
+        {message?.user?.photoURL ? (
+          <img
+            width={40}
+            height={40}
+            className="border-circle mr-2"
+            src={message?.user?.photoURL}
+            alt="logo"
+          />
+        ) : (
+          <span className="bg-indigo-100 p-2 border-circle text-indigo-400 w-3rem h-3rem flex align-items-center justify-content-center">
+            {generateLogo(message.user?.name)}
+          </span>
+        )}
+        <span className="mt-1">{getTime(message?.created_date as Date)}</span>
       </div>
     </div>
   );

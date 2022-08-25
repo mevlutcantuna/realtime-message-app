@@ -1,6 +1,7 @@
 import {
   createAsyncThunk,
   createSlice,
+  PayloadAction,
   SerializedError,
 } from "@reduxjs/toolkit";
 import { MessageType } from "../../types";
@@ -39,6 +40,9 @@ const chatSlice = createSlice({
   initialState,
   reducers: {
     // non async actions
+    setChat: (state, action: PayloadAction<MessageType>) => {
+      state.messages = [...state.messages, action.payload];
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchRoomMessages.fulfilled, (state, action) => {
@@ -66,4 +70,5 @@ const chatSlice = createSlice({
   },
 });
 
+export const { setChat } = chatSlice.actions;
 export default chatSlice.reducer;

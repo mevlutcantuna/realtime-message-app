@@ -26,6 +26,10 @@ const MessageSchema = new mongoose.Schema({
       required: true,
       trim: true,
     },
+    photoURL: {
+      type: String,
+      trim: true,
+    },
   },
 });
 

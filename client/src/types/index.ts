@@ -18,8 +18,9 @@ export interface RoomType {
 
 export interface MessageType {
   user: {
-    name: String;
+    name: string;
     id: string;
+    photoURL?: string;
   };
   _id?: string;
   content: string;
@@ -36,13 +37,4 @@ export interface ServerToClientEvents {
 
 export interface ClientToServerEvents {
   hello: () => void;
-}
-
-export interface InterServerEvents {
-  ping: () => void;
-}
-
-export interface SocketData {
-  name: string;
-  age: number;
 }

@@ -37,7 +37,7 @@ const SideBar: React.FC<Props> = ({ socket }) => {
   };
   useEffect(() => {
     //@ts-ignore
-    socket.on("get-created-room", (data) => {
+    socket?.on("get-created-room", (data) => {
       setNewRoom({ ...data });
     });
   }, []);

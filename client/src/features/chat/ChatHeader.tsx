@@ -11,6 +11,7 @@ const ChatHeader = () => {
   let room_id = search.split("=")[1];
 
   useEffect(() => {
+    // get room information
     for (let i = 0; i < rooms.length; i++) {
       const item = rooms[i];
       if (item?._id === room_id) {

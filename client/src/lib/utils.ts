@@ -6,9 +6,9 @@ export const isLoggedin = () => {
 export const generateLogo = (fullName: string = "") => {
   const nameArr = fullName?.split(" ");
 
-  const first = nameArr[0]?.split("")[0];
-  const last = nameArr[1]?.split("")[0];
-  return first + last && last;
+  let first = nameArr[0]?.split("")[0];
+  let last = nameArr[1]?.split("")[0];
+  return (first && first) + (last ? last : "");
 };
 
 export const getTime = (time: Date) => {

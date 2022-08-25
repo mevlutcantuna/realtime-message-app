@@ -44,7 +44,7 @@ const Header: React.FC = () => {
               alt="logo"
             />
           ) : (
-            <span className="surface-300 p-2 border-circle text-indigo-400 mr-2">
+            <span className="surface-300 p-2 border-circle text-indigo-400 mr-2 w-3rem h-3rem flex align-items-center justify-content-center">
               {generateLogo(user?.displayName)}
             </span>
           )}

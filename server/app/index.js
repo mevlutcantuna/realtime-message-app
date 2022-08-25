@@ -73,6 +73,17 @@ io.on("connection", (socket) => {
     }
   );
 
+  // send message
+  socket.on("send-message", ({ content, room_id, created_date, user, _id }) => {
+    io.emit("get-sent-message", {
+      content,
+      room_id,
+      created_date,
+      user,
+      _id,
+    });
+  });
+
   // when disconnect
   socket.on("disconnect", () => {
     console.log("User is disconnected with this ID : " + socket.id);

@@ -24,6 +24,7 @@ const ChatRoom: React.FC<Props> = ({ socket }) => {
   let room_id = search.split("=")[1];
 
   useEffect(() => {
+    // get messages of the room
     const getMessages = async () => {
       if (room_id) {
         const res = await dispatch(fetchRoomMessages(room_id));
@@ -54,9 +55,9 @@ const ChatRoom: React.FC<Props> = ({ socket }) => {
             <ProgressSpinner />
           </div>
         ) : (
-          <>{messages.length > 0 ? <Messages /> : <NoMessage />}</>
+          <>{isRoomSelected ? <Messages /> : <NoMessage />}</>
         )}
-        <ChatInput isRoomSelected={isRoomSelected} />
+        <ChatInput socket={socket} isRoomSelected={isRoomSelected} />
       </div>
     </div>
   );
