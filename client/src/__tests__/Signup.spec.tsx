@@ -16,5 +16,6 @@ describe("Signup tests", () => {
     setup();
     expect(screen.getAllByText(/Signup/i)[0]).toBeInTheDocument();
   });
+
   it("should signup correctly", async () => { });
 });
