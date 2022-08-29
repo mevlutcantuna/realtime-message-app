@@ -10,7 +10,6 @@ const setup = () => {
     </BrowserRouter>
   );
 };
-
 describe("Signup tests", () => {
   it("should signup page render", () => {
     setup();
