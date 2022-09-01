@@ -91,10 +91,11 @@ const Signup: React.FC = () => {
             name="fullName"
             onChange={formik.handleChange}
             id="fullName"
+            data-testid="fullName"
             className="h-3rem w-full text-sm"
             type="text"
           />
-          <label className="text-xs" htmlFor="email">
+          <label className="text-xs" htmlFor="fullName">
             Full Name
           </label>
           {getFormErrorMessage("fullName")}
@@ -106,6 +107,7 @@ const Signup: React.FC = () => {
             onChange={formik.handleChange}
             id="email"
             className="h-3rem w-full text-sm"
+            data-testid="email"
           />
           <label className="text-xs" htmlFor="email">
             Email
@@ -118,10 +120,11 @@ const Signup: React.FC = () => {
             name="password"
             onChange={formik.handleChange}
             id="password"
+            data-testid="password"
             className="h-3rem w-full text-sm"
             type="password"
           />
-          <label className="text-xs" htmlFor="passsword">
+          <label className="text-xs" htmlFor="password">
             Password
           </label>
           {getFormErrorMessage("password")}
