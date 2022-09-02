@@ -1,76 +1,76 @@
-import React, { useEffect, useState } from 'react'
-import CreateRoomModal from './CreateRoomModal'
-import { useAutoAnimate } from '@formkit/auto-animate/react'
+import React, { useEffect, useState } from 'react';
+import CreateRoomModal from './CreateRoomModal';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 import {
     ClientToServerEvents,
     RoomType,
     ServerToClientEvents,
-} from '../../types'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { fetchAllRooms, setRooms } from './RoomSlice'
-import RoomItem from './RoomItem'
-import { Socket } from 'socket.io-client'
+} from '../../types';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { fetchAllRooms, setRooms } from './RoomSlice';
+import RoomItem from './RoomItem';
+import { Socket } from 'socket.io-client';
 
 interface Props {
-    socket: Socket<ServerToClientEvents, ClientToServerEvents> | null
+    socket: Socket<ServerToClientEvents, ClientToServerEvents> | null;
 }
 
 const SideBar: React.FC<Props> = ({ socket }) => {
-    const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
-    const [searchInput, setSearchInput] = useState<string>('')
-    const [searchedAllRooms, setSearchedAllRooms] = useState<RoomType[]>([])
-    const [newRoom, setNewRoom] = useState<RoomType>()
-    const dispatch = useAppDispatch()
-    const rooms = useAppSelector((state) => state.room.rooms)
-    const [animationParent] = useAutoAnimate()
+    const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+    const [searchInput, setSearchInput] = useState<string>('');
+    const [searchedAllRooms, setSearchedAllRooms] = useState<RoomType[]>([]);
+    const [newRoom, setNewRoom] = useState<RoomType>();
+    const dispatch = useAppDispatch();
+    const rooms = useAppSelector((state) => state.room.rooms);
+    const [animationParent] = useAutoAnimate();
 
     const showModal = () => {
-        setIsModalVisible(true)
-    }
+        setIsModalVisible(true);
+    };
 
     const handleOk = () => {
-        setIsModalVisible(false)
-    }
+        setIsModalVisible(false);
+    };
 
     const handleCancel = () => {
-        setIsModalVisible(false)
-    }
+        setIsModalVisible(false);
+    };
     useEffect(() => {
         //@ts-ignore
         socket?.on('get-created-room', (data) => {
-            setNewRoom({ ...data })
-        })
-    }, [socket])
+            setNewRoom({ ...data });
+        });
+    }, [socket]);
 
     useEffect(() => {
         if (newRoom) {
             const roomExists = rooms?.findIndex(
                 (item: RoomType) => item._id === newRoom._id
-            )
+            );
 
             if (roomExists === -1) {
-                const newRooms = [newRoom, ...rooms]
-                dispatch(setRooms(newRooms))
+                const newRooms = [newRoom, ...rooms];
+                dispatch(setRooms(newRooms));
             } else {
-                dispatch(setRooms([...rooms]))
+                dispatch(setRooms([...rooms]));
             }
         }
-    }, [newRoom, dispatch])
+    }, [newRoom, dispatch]);
 
     useEffect(() => {
         // get all room
-        dispatch(fetchAllRooms())
-    }, [dispatch])
+        dispatch(fetchAllRooms());
+    }, [dispatch]);
 
     useEffect(() => {
         // search all rooms and set it when page initialize
-        if (searchInput === '') return setSearchedAllRooms(rooms)
+        if (searchInput === '') return setSearchedAllRooms(rooms);
 
         let changedAllRooms = rooms.filter((room: RoomType) =>
             room.name.toLowerCase().includes(searchInput.toLowerCase())
-        )
-        return setSearchedAllRooms(changedAllRooms)
-    }, [searchInput, rooms])
+        );
+        return setSearchedAllRooms(changedAllRooms);
+    }, [searchInput, rooms]);
 
     // @ts-ignore
     return (
@@ -123,7 +123,7 @@ const SideBar: React.FC<Props> = ({ socket }) => {
                 socket={socket}
             />
         </div>
-    )
-}
+    );
+};
 
-export default SideBar
+export default SideBar;

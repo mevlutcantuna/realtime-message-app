@@ -5,12 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="03572836-3864-431a-9169-1fa9403f411a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/Header.spec.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/test-utils.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/features/room/Room.spec.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/__tests__/Signup.spec.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Header.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/room/Room.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/client/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.prettierrc" beforeDir="false" afterPath="$PROJECT_DIR$/client/.prettierrc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Header.spec.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/room/SideBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/room/SideBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/mocks/handlers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/mocks/handlers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/setupTests.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/setupTests.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/client/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +73,7 @@
       <workItem from="1662042473710" duration="40000" />
       <workItem from="1662117074219" duration="1624000" />
       <workItem from="1662123390194" duration="2245000" />
-      <workItem from="1662125648632" duration="1122000" />
+      <workItem from="1662125648632" duration="3250000" />
     </task>
     <servers />
   </component>
