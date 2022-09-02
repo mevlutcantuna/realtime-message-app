@@ -30,12 +30,14 @@ mongoose
   .then(() => {
     server.listen(port, () => {
       console.log("DB Connection Successfully " + port);
+      console.log(process.env.NODE_ENV);
     });
   })
   .catch((err) => console.log(err));
 
-const uri = "https://message-app-realtime-mct.netlify.app/";
-//const devUri = "http://localhost:3000";
+const uri = process.env.NODE_ENV
+  ? "http://localhost:3000"
+  : "https://message-app-realtime-mct.netlify.app/";
 
 const io = new Server(server, {
   cors: {

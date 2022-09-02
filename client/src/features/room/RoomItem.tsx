@@ -1,38 +1,38 @@
-import React, { useEffect, useState } from 'react'
-import { generateLogo } from '../../lib/utils'
+import React, { useEffect, useState } from 'react';
+import { generateLogo } from '../../lib/utils';
 import {
     ClientToServerEvents,
     RoomType,
     ServerToClientEvents,
-} from '../../types'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { SpeedDial } from 'primereact/speeddial'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { UserStateType } from '../user/userSlice'
-import { deleteRoom, RoomStateType, setRooms } from './RoomSlice'
-import toast from 'react-hot-toast'
-import { Socket } from 'socket.io-client'
+} from '../../types';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { SpeedDial } from 'primereact/speeddial';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { UserStateType } from '../user/userSlice';
+import { deleteRoom, RoomStateType, setRooms } from './RoomSlice';
+import toast from 'react-hot-toast';
+import { Socket } from 'socket.io-client';
 
 interface Props {
-    room: RoomType
-    socket: Socket<ServerToClientEvents, ClientToServerEvents> | null
+    room: RoomType;
+    socket: Socket<ServerToClientEvents, ClientToServerEvents> | null;
 }
 
 const RoomItem: React.FC<Props> = ({ room, socket }) => {
-    const { user } = useAppSelector<UserStateType>((state) => state.user)
-    const { rooms } = useAppSelector<RoomStateType>((state) => state.room)
-    const navigate = useNavigate()
-    const dispatch = useAppDispatch()
-    let { search } = useLocation()
-    let room_id = search.split('=')[1]
-    const [deletedRoom, setDeletedRoom] = useState<RoomType | null>(null)
+    const { user } = useAppSelector<UserStateType>((state) => state.user);
+    const { rooms } = useAppSelector<RoomStateType>((state) => state.room);
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    let { search } = useLocation();
+    let room_id = search.split('=')[1];
+    const [deletedRoom, setDeletedRoom] = useState<RoomType | null>(null);
 
     const selectRoom = (id: string) => {
-        return navigate(`?room=${id}`)
-    }
+        return navigate(`?room=${id}`);
+    };
 
     const deleteRoomCommand = async (id: string) => {
-        const res = await dispatch(deleteRoom(id))
+        const res = await dispatch(deleteRoom(id));
         if (res.payload) {
             //@ts-ignore
             socket?.emit('delete-room', {
@@ -41,40 +41,41 @@ const RoomItem: React.FC<Props> = ({ room, socket }) => {
                 user_id: res.payload.user_id,
                 created_date: res.payload.created_date,
                 updated_date: res.payload.updated_date,
-            })
+            });
 
-            toast.success('Room deleted.')
-            return navigate('/')
+            toast.success('Room deleted.');
+            return navigate('/');
         } else {
-            return toast.error('Something went wrong.')
+            return toast.error('Something went wrong.');
         }
-    }
+    };
 
     useEffect(() => {
         if (deletedRoom) {
             const deletedNewRooms = rooms.filter(
                 (item: RoomType) => item._id !== deletedRoom._id
-            )
-            dispatch(setRooms(deletedNewRooms))
+            );
+            console.log('worked');
+            dispatch(setRooms(deletedNewRooms));
         }
-    }, [deletedRoom, dispatch, rooms])
+    }, [deletedRoom, dispatch]);
 
     useEffect(() => {
         //@ts-ignore
         socket?.on('get-delete-room', (data) => {
-            setDeletedRoom({ ...data })
-        })
-    }, [socket])
+            setDeletedRoom({ ...data });
+        });
+    }, [socket]);
 
     const items = [
         {
             label: 'delete',
             icon: 'pi pi-trash',
             command: async () => {
-                await deleteRoomCommand(room_id)
+                await deleteRoomCommand(room_id);
             },
         },
-    ]
+    ];
 
     return (
         <div>
@@ -114,7 +115,7 @@ const RoomItem: React.FC<Props> = ({ room, socket }) => {
                 </div>
             </li>
         </div>
-    )
-}
+    );
+};
 
-export default RoomItem
+export default RoomItem;
