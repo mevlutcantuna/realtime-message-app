@@ -3,6 +3,10 @@ import { BrowserRouter } from "react-router-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
+jest.mock('firebase/auth',() => {
+
+})
+
 const setup = () => {
   render(
     <BrowserRouter>
@@ -12,6 +16,10 @@ const setup = () => {
 };
 
 describe("Signup tests", () => {
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
+
   it("should signup page render", () => {
     setup();
     expect(screen.getAllByText(/Signup/i)[0]).toBeInTheDocument();

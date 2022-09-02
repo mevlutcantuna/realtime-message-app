@@ -15,7 +15,7 @@ const Signup: React.FC = () => {
   const signup = async (fullName: string, email: string, password: string) => {
     setLoading(true);
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(auth.currentUser, {
         displayName: fullName,
       });
