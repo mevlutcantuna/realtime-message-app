@@ -3,6 +3,7 @@ import Message from "../model/message.js";
 
 export const sendMessage = async (req, res, next) => {
   const { room_id, content, created_date, user } = req.body;
+
   try {
     // check room exists
     const room = await Room.findById(room_id);
