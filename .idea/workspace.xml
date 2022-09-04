@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="03572836-3864-431a-9169-1fa9403f411a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/app/controller/message.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/app/controller/message.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/app/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/app/index.js" afterDir="false" />
     </list>
@@ -15,7 +16,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/server" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -67,7 +68,8 @@
       <workItem from="1662117074219" duration="1624000" />
       <workItem from="1662123390194" duration="2245000" />
       <workItem from="1662125648632" duration="4316000" />
-      <workItem from="1662223785484" duration="13000" />
+      <workItem from="1662223785484" duration="46000" />
+      <workItem from="1662286269966" duration="661000" />
     </task>
     <servers />
   </component>
